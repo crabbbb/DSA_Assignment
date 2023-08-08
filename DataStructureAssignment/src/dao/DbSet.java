@@ -3,120 +3,124 @@ package dao;
 /**
  * @author LOH XIN JIE
  */
-import DataAccess.Mapper.*;
-import Utility.Converter;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import adt.*;
+import java.io.*;
 
 public class DbSet<T extends DBModel> {
 
-    public T t;
-    private Connection conn;
-    private Logger logger;
+    private T t;
 
     public DbSet(T t) {
         this.t = t;
-        this.logger = Logger.getLogger(DbSet.class.getName());
     }
 
-    //get all data in corresponding table
-    public ArrayList<T> getData(RowMapper<T> mapper) throws SQLException {
+    /**
+     * check the existing of the txt file, <br>
+     * if no exist will create a new one
+     *
+     * @return File when the file is already be open
+     * @throws IOException if the file cannot be create
+     */
+    private File openFile() throws IOException {
+        File openFile = new File(t.getFileName() + ".txt");
 
-    }
-
-    //SELECT * FROM TABLENAME WHERE mapper.id = ?
-    public ArrayList<T> getData(RowMapper<T> mapper, int rowID) throws SQLException {
-
-    }
-
-    //set ? paramenter
-    private void setParamenter(PreparedStatement stmt, Object condition, int index) throws SQLException {
-        if (condition instanceof Integer) {
-            stmt.setInt(index, (Integer) condition);
-        } else if (condition instanceof String) {
-            stmt.setString(index, (String) condition);
-        } else if (condition instanceof Character) {
-            stmt.setString(index, String.valueOf((Character) condition));
-        } else if (condition instanceof Double) {
-            stmt.setDouble(index, (Double) condition);
-        } else if (condition instanceof java.util.Date) {
-            stmt.setDate(index, Converter.convertUtilDateToSQLDate((java.util.Date) condition));
+        //no exist
+        if (!openFile.exists()) {
+            //create a new file
+            createFile();
         }
+
+        //already open
+        return openFile;
     }
 
-    //Insert
-    public boolean Add(RowMapper<T> mapper, T t) throws SQLException {
+    /**
+     * @return false when the file is already exist else will be true
+     * @throws IOException when the file cannot be create
+     */
+    private boolean createFile() throws IOException {
         try {
-            conn = ConnectionDriver.connect();
-
-            PreparedStatement stmt = mapper.prepareAdd(conn, t);
-
-            return stmt.executeUpdate() == 1;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
-
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
-        } finally {
-            ConnectionDriver.endConnection(conn);
+            return new File(t.getFileName() + ".txt").createNewFile();
+        } catch (IOException ex) {
+            //error cause cannot open
+            throw new IOException("File cannot be create : " + ex.getMessage());
         }
     }
 
     /**
-     * <h1>Update<h1/><br/>
-     * for <b>member_address</b> didn't provide update function because inside
-     * only contain two primary key <br/>
-     * if need to make change please using add and delete function to process it
+     * close for <b>ObjectInputStream</b> <br>
+     * if cannot close will prompt out error message at console
+     *
+     * IOException cause when the file cannot be close
      */
-    public boolean Update(RowMapper<T> mapper, T t) throws SQLException {
+    private void closeFile(ObjectInputStream input) {
         try {
-            conn = ConnectionDriver.connect();
-
-            PreparedStatement stmt = mapper.prepareUpdate(conn, t);
-
-            return stmt.executeUpdate() == 1;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
-
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
-        } finally {
-            ConnectionDriver.endConnection(conn);
+            if (input != null) {
+                input.close();
+            }
+        } catch (IOException ex) {
+            //print error message
+            System.out.println("Cloud not close " + t.getFileName() + ".txt : " + ex.getMessage());
         }
     }
 
-    //Delete
-    public boolean Delete(RowMapper<T> mapper, T t) throws SQLException {
+    /**
+     * close for <b>ObjectOutputStream</b> <br>
+     * if cannot close will prompt out error message at console
+     *
+     * IOException cause when the file cannot be close
+     */
+    private void closeFile(ObjectOutputStream output) {
         try {
-            conn = ConnectionDriver.connect();
+            if (output != null) {
+                output.close();
+            }
+        } catch (IOException ex) {
+            //print error message
+            System.out.println("Cloud not close " + t.getFileName() + ".txt : " + ex.getMessage());
+        }
+    }
 
-            PreparedStatement stmt = mapper.prepareDelete(conn, t);
+    /**
+     * get all data in corresponding table
+     *
+     * @return ArrayList<T> when successful get data from corresponding file
+     * @throws IOException when File cannot be open / cannot create a new file
+     * at openFile() method
+     * @throws ClassNotFoundException when class not found
+     *
+     * when hit this exception please stop your process...
+     */
+    public ArrayList<T> getData() throws IOException, ClassNotFoundException {
 
-            return stmt.executeUpdate() == 1;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
+        ObjectInputStream input = null;
 
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
+        try {
+            input = new ObjectInputStream(new FileInputStream(openFile()));
+
+            ArrayList<T> tlist = (ArrayList<T>) input.readObject();
+
+            return tlist;
+
         } finally {
-            ConnectionDriver.endConnection(conn);
+            //will be close when have error
+            closeFile(input);
+        }
+    }
+
+    //Insert
+    public boolean Add(T t) throws IOException, ClassNotFoundException {
+        ObjectOutputStream output = null;
+
+        //open the file and save data inside
+        try {
+            output = new ObjectOutputStream(new FileOutputStream(openFile()));
+
+            output.writeObject(t);
+
+            return true;
+        } finally {
+            closeFile(output);
         }
     }
 

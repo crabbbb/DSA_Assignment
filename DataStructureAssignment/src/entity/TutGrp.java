@@ -2,7 +2,7 @@ package entity;
 
 import adt.ArrayList;
 
-public class TutGrpManagement {
+public class TutGrp {
 
     private static int currentGrpId = 1000;
     private int groupId;
@@ -10,10 +10,10 @@ public class TutGrpManagement {
     private int groupSize;
     private ArrayList<Student> students;
 
-    public TutGrpManagement() {
+    public TutGrp() {
     }
 
-    public TutGrpManagement(String groupName, int groupSize, ArrayList<Student> students) {
+    public TutGrp(String groupName, int groupSize, ArrayList<Student> students) {
         this.groupName = groupName;
         this.groupSize = groupSize;
         this.students = students;
@@ -59,14 +59,14 @@ public class TutGrpManagement {
 
         int midIndex = length / 2; //get Mid Point to split into 2 subArray
 
-        TutGrpManagement[] leftHalf = new TutGrpManagement[midIndex];
-        TutGrpManagement[] rightHalf = new TutGrpManagement[length - midIndex];
+        TutGrp[] leftHalf = new TutGrp[midIndex];
+        TutGrp[] rightHalf = new TutGrp[length - midIndex];
 
         for (int i = 0; i < midIndex; i++) {
-            leftHalf[i] = (TutGrpManagement) person[i];
+            leftHalf[i] = (TutGrp) person[i];
         }
         for (int i = midIndex; i < length; i++) {
-            rightHalf[i - midIndex] = (TutGrpManagement) person[i];
+            rightHalf[i - midIndex] = (TutGrp) person[i];
         }
 
         sort(leftHalf, leftHalf.length);
@@ -77,7 +77,7 @@ public class TutGrpManagement {
 
     }
 
-    private static void merge(Object[] person, TutGrpManagement[] leftHalf, TutGrpManagement[] rightHalf) {
+    private static void merge(Object[] person, TutGrp[] leftHalf, TutGrp[] rightHalf) {
         int leftSize = leftHalf.length;
         int rightSize = rightHalf.length;
 
@@ -129,7 +129,7 @@ public class TutGrpManagement {
         if (obj == this) {
             return true;
         }
-        return (this.getGroupName().equals(((TutGrpManagement) obj).getGroupName()) && this.getGroupSize() == ((TutGrpManagement) obj).getGroupSize());
+        return (this.getGroupName().equals(((TutGrp) obj).getGroupName()) && this.getGroupSize() == ((TutGrp) obj).getGroupSize());
     }
 
     public String toString() {
