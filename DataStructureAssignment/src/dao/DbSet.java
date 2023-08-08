@@ -23,96 +23,12 @@ public class DbSet<T extends DBModel> {
 
     //get all data in corresponding table
     public ArrayList<T> getData(RowMapper<T> mapper) throws SQLException {
-        ArrayList<T> tList = new ArrayList<>();
-        try {
-            conn = ConnectionDriver.connect();
-            String sqlQuery = "SELECT * FROM " + t.TABLENAME;
 
-            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs != null && rs.next()) {
-                tList.add(mapper.mapRow(rs));
-            }
-
-            return tList;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
-
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
-        } finally {
-            ConnectionDriver.endConnection(conn);
-        }
     }
 
     //SELECT * FROM TABLENAME WHERE mapper.id = ?
     public ArrayList<T> getData(RowMapper<T> mapper, int rowID) throws SQLException {
-        ArrayList<T> tList = new ArrayList<>();
-        try {
-            conn = ConnectionDriver.connect();
-            String sqlQuery = "SELECT * FROM " + t.TABLENAME + " WHERE " + mapper.TABLE_PRIMARY + " = ?";
 
-            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-            stmt.setInt(1, rowID);
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs != null && rs.next()) {
-                tList.add(mapper.mapRow(rs));
-            }
-
-            return tList;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
-
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
-        } finally {
-            ConnectionDriver.endConnection(conn);
-        }
-    }
-
-    //passing sql and List<Object>
-    public ArrayList<T> getData(RowMapper<T> mapper, ArrayList<Object> condition, String sqlQuery) throws SQLException {
-        ArrayList<T> tList = new ArrayList<>();
-        try {
-            conn = ConnectionDriver.connect();
-
-            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-            for (int i = 1; i <= condition.size(); i++) {
-                setParamenter(stmt, condition.get(i - 1), i);
-            }
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs != null && rs.next()) {
-                tList.add(mapper.mapRow(rs));
-            }
-
-            return tList;
-        } catch (SQLException ex) {
-            /*connection and execute error*/
-            logger.log(Level.SEVERE, ex.getMessage());
-            conn.rollback();
-
-            /**
-             * this throw is for checking to know have error occurs when during
-             * db execute normally will be stmt or conn error
-             */
-            throw new SQLException(ex.getMessage());
-        } finally {
-            ConnectionDriver.endConnection(conn);
-        }
     }
 
     //set ? paramenter
