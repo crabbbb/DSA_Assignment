@@ -18,7 +18,6 @@ public class Programme extends DBModel implements Serializable {
 
     private String programmeDescription;
 
-    //private ArrayList<TutGrp> ttlGrp;
     public Programme() {
         super("Programme");
     }

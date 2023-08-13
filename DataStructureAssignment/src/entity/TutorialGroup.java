@@ -1,7 +1,5 @@
 package entity;
 
-import adt.ArrayList;
-
 public class TutorialGroup {
 
     private String tutorialGrpId;
