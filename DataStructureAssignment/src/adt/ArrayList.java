@@ -1,6 +1,6 @@
 package adt;
 
-import entity.TutGrp;
+import entity.TutorialGroup;
 import java.io.Serializable;
 
 public class ArrayList<T> implements ListInterface<T>, Serializable {
@@ -110,8 +110,8 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     public void sort() {
         if (isEmpty()) {
             //Currently Don't have Data
-        } else if (array[0] instanceof TutGrp) {
-            TutGrp.sort(array, numberOfEntries);
+        } else if (array[0] instanceof TutorialGroup) {
+            TutorialGroup.sort(array, numberOfEntries);
         }
     }
     

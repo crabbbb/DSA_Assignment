@@ -21,7 +21,7 @@ public class TestDbSet {
             DbSet<Programme> programme = new DbSet<>(new Programme());
 
             //String programmeID, String programmeName, int programmeCapacity, String programmeDescription, ArrayList<TutGrp> ttlGrp
-            ArrayList<TutGrp> list = new ArrayList<TutGrp>();
+            ArrayList<TutorialGroup> list = new ArrayList<TutorialGroup>();
             programme.Add(new Programme("RSW", "Bachelor of Software", 100, "Under IT"));
             programme.Add(new Programme("RST", "Bachelor of Software", 100, "Under IT"));
 

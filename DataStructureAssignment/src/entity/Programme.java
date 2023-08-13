@@ -16,9 +16,6 @@ public class Programme extends DBModel implements Serializable {
     //full name of RSW
     private String programmeName;
 
-    //maximum number need of student
-    private int programmeCapacity;
-
     private String programmeDescription;
 
     //private ArrayList<TutGrp> ttlGrp;
@@ -30,9 +27,7 @@ public class Programme extends DBModel implements Serializable {
         super("Programme");
         this.programmeID = programmeID;
         this.programmeName = programmeName;
-        this.programmeCapacity = programmeCapacity;
         this.programmeDescription = programmeDescription;
-//        this.ttlGrp = ttlGrp;
     }
 
     public String getProgrammeID() {
@@ -41,10 +36,6 @@ public class Programme extends DBModel implements Serializable {
 
     public String getProgrammeName() {
         return programmeName;
-    }
-
-    public int getProgrammeCapacity() {
-        return programmeCapacity;
     }
 
     public String getProgrammeDescription() {
@@ -59,26 +50,10 @@ public class Programme extends DBModel implements Serializable {
         this.programmeName = programmeName;
     }
 
-    public void setProgrammeCapacity(int programmeCapacity) {
-        this.programmeCapacity = programmeCapacity;
-    }
-
     public void setProgrammeDescription(String programmeDescription) {
         this.programmeDescription = programmeDescription;
     }
 
-//    //getter and setter and add for TutorialGrp
-//    public ArrayList<TutGrp> getTtlGrp() {
-//        return ttlGrp;
-//    }
-//
-//    public void setTtlGrp(ArrayList<TutGrp> ttlGrp) {
-//        this.ttlGrp = ttlGrp;
-//    }
-//
-//    public boolean addTtlGrp(TutGrp ttlGrp) {
-//        return this.ttlGrp.add(ttlGrp);
-//    }
     @Override
     public int hashCode() {
         int hash = 5;
@@ -109,7 +84,7 @@ public class Programme extends DBModel implements Serializable {
 
     @Override
     public String toString() {
-        return "Programme{" + "programmeID=" + programmeID + ", programmeName=" + programmeName + ", programmeCapacity=" + programmeCapacity + ", programmeDescription=" + programmeDescription + ", ttlGrp=" + '}';
+        return "Programme{" + "programmeID=" + programmeID + ", programmeName=" + programmeName + ", programmeDescription=" + programmeDescription + '}';
     }
 
 }

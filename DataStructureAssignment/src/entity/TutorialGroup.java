@@ -2,51 +2,43 @@ package entity;
 
 import adt.ArrayList;
 
-public class TutGrp {
+public class TutorialGroup {
 
-    private static int currentGrpId = 1000;
-    private int groupId;
-    private String groupName;
+    private String tutorialGrpId;
     private int groupSize;
-    private ArrayList<Student> students;
+    private String programmeID;
 
-    public TutGrp() {
+    public TutorialGroup() {
     }
 
-    public TutGrp(String groupName, int groupSize, ArrayList<Student> students) {
-        this.groupName = groupName;
+    public TutorialGroup(String tutorialGrpId, int groupSize, String programmeID) {
+        this.tutorialGrpId = tutorialGrpId;
         this.groupSize = groupSize;
-        this.students = students;
-        this.groupId = currentGrpId;
-        currentGrpId++;
+        this.programmeID = programmeID;
     }
 
-    public static int getCurrentGrpId() {
-        return (currentGrpId - 1);
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public String getTutorialGrpId() {
+        return tutorialGrpId;
     }
 
     public int getGroupSize() {
         return groupSize;
     }
 
+    public String getProgrammeID() {
+        return programmeID;
+    }
+
+    public void setTutorialGrpId(String tutorialGrpId) {
+        this.tutorialGrpId = tutorialGrpId;
+    }
+
     public void setGroupSize(int groupSize) {
         this.groupSize = groupSize;
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+    public void setProgrammeID(String programmeID) {
+        this.programmeID = programmeID;
     }
 
     public static void sort(Object[] person, int size) {
@@ -59,14 +51,14 @@ public class TutGrp {
 
         int midIndex = length / 2; //get Mid Point to split into 2 subArray
 
-        TutGrp[] leftHalf = new TutGrp[midIndex];
-        TutGrp[] rightHalf = new TutGrp[length - midIndex];
+        TutorialGroup[] leftHalf = new TutorialGroup[midIndex];
+        TutorialGroup[] rightHalf = new TutorialGroup[length - midIndex];
 
         for (int i = 0; i < midIndex; i++) {
-            leftHalf[i] = (TutGrp) person[i];
+            leftHalf[i] = (TutorialGroup) person[i];
         }
         for (int i = midIndex; i < length; i++) {
-            rightHalf[i - midIndex] = (TutGrp) person[i];
+            rightHalf[i - midIndex] = (TutorialGroup) person[i];
         }
 
         sort(leftHalf, leftHalf.length);
@@ -77,7 +69,7 @@ public class TutGrp {
 
     }
 
-    private static void merge(Object[] person, TutGrp[] leftHalf, TutGrp[] rightHalf) {
+    private static void merge(Object[] person, TutorialGroup[] leftHalf, TutorialGroup[] rightHalf) {
         int leftSize = leftHalf.length;
         int rightSize = rightHalf.length;
 
@@ -98,7 +90,7 @@ public class TutGrp {
         //String (Name)
         while (i < leftSize && j < rightSize) {
 
-            if (leftHalf[i].getGroupName().compareTo(rightHalf[j].getGroupName()) < 0) {
+            if (leftHalf[i].getTutorialGrpId().compareTo(rightHalf[j].getTutorialGrpId()) < 0) {
                 person[k] = leftHalf[i];
                 i++;
             } else {
@@ -129,14 +121,11 @@ public class TutGrp {
         if (obj == this) {
             return true;
         }
-        return (this.getGroupName().equals(((TutGrp) obj).getGroupName()) && this.getGroupSize() == ((TutGrp) obj).getGroupSize());
+        return (this.getTutorialGrpId().equals(((TutorialGroup) obj).getTutorialGrpId()) && this.getGroupSize() == ((TutorialGroup) obj).getGroupSize());
     }
 
     public String toString() {
-        String str = "GroupName : " + this.groupName + "\nGroup Size : " + this.groupSize;
-        for (int i = 0; i < students.size(); i++) {
-            str += students.get(i).toString();
-        }
+        String str = "GroupName : " + this.tutorialGrpId + "\nGroup Size : " + this.groupSize;
         return str;
     }
 
