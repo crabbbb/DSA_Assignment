@@ -1,7 +1,6 @@
 package adt;
 
 import dao.DBModel;
-import test.*;
 import java.io.IOException;
 
 /**
@@ -19,5 +18,5 @@ public interface DBInterface<T extends DBModel> {
 
     T getWithId(String ID);
 
-    test.ArrayList<T> getAll() throws IOException, ClassNotFoundException;
+    DoublyLinkedList<T> getAll() throws IOException, ClassNotFoundException;
 }

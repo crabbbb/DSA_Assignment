@@ -4,6 +4,7 @@
  */
 package dao;
 
+import adt.DoublyLinkedList;
 import entity.*;
 import test.*;
 import java.io.IOException;
@@ -11,8 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * this is only for testing will be delete de ~
  *
- * @author LENOVO
+ * @author LOH XIN JIE
  */
 public class TestDbSet {
 
@@ -23,11 +25,11 @@ public class TestDbSet {
             DbSet<Programme> programme = new DbSet<>(new Programme());
 
             //String programmeID, String programmeName, int programmeCapacity, String programmeDescription, ArrayList<TutGrp> ttlGrp
-            ArrayList<TutorialGroup> list = new ArrayList<TutorialGroup>();
+            DoublyLinkedList<TutorialGroup> list = new DoublyLinkedList<TutorialGroup>();
             programme.Add(new Programme("RSW", "Bachelor of Software", 100, "Under IT"));
             programme.Add(new Programme("RST", "Bachelor of Software", 100, "Under IT"));
 
-            ArrayList<Programme> p = programme.getAll();
+            DoublyLinkedList<Programme> p = programme.getAll();
 
             System.out.println("getData : " + p);
         } catch (IOException ex) {

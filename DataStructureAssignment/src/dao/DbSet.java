@@ -4,9 +4,8 @@ package dao;
  * @author LOH XIN JIE
  */
 //import adt.*;
-import adt.DBInterface;
+import adt.*;
 import java.io.*;
-import test.*;
 import utility.Message;
 
 /*in this class all exception will be throw to ui to handle, except IOException that closeFile() maybe hit*/
@@ -105,7 +104,7 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
      * @throws IOException - when create & open file not successful
      * @throws ClassNotFoundException
      */
-    private ArrayList<T> readFileData() throws IOException, ClassNotFoundException {
+    private DoublyLinkedList<T> readFileData() throws IOException, ClassNotFoundException {
         try {
             openFile();
             if (!checkFileEmpty()) {
@@ -113,7 +112,7 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
                 fis = new FileInputStream(file);
                 ois = new ObjectInputStream(fis);
 
-                return (ArrayList<T>) ois.readObject();
+                return (DoublyLinkedList<T>) ois.readObject();
             }
 
             return null;
@@ -128,7 +127,7 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
      * @throws IOException - when create & open file not successful
      * @throws ClassNotFoundException
      */
-    private void writeFileData(ArrayList<T> alist) throws IOException, ClassNotFoundException {
+    private void writeFileData(DoublyLinkedList<T> alist) throws IOException, ClassNotFoundException {
         try {
             openFile();
             fos = new FileOutputStream(file);
@@ -143,8 +142,8 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
     /**
      * get all data in corresponding table
      *
-     * @return ArrayList<T> when successful get data from corresponding file, if
-     * no data inside will return as null
+     * @return DoublyLinkedList<T> when successful get data from corresponding
+     * file, if no data inside will return as null
      * @throws java.io.IOException when File cannot be open / cannot create a
      * new file at openFile() method
      * @throws java.lang.ClassNotFoundException when class not found
@@ -152,8 +151,8 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
      * when hit this exception please stop your process...
      */
     @Override
-    public ArrayList<T> getAll() throws IOException, ClassNotFoundException {
-        ArrayList<T> alist = readFileData();
+    public DoublyLinkedList<T> getAll() throws IOException, ClassNotFoundException {
+        DoublyLinkedList<T> alist = readFileData();
         return alist;
     }
 
@@ -172,11 +171,11 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
     public boolean Add(T newEntry) throws IOException, ClassNotFoundException {
         if (newEntry != null) {
             // read data from file
-            ArrayList<T> alist = readFileData();
+            DoublyLinkedList<T> alist = readFileData();
 
             // if alist is null mean file is empty then create a new alist
             if (alist == null) {
-                alist = new ArrayList<>();
+                alist = new DoublyLinkedList<>();
             }
 
             // add newEntry into alist
@@ -205,7 +204,7 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
     @Override
     public T getWithId(int ID) throws IOException, ClassNotFoundException {
         // read data from file
-        ArrayList<T> alist = readFileData();
+        DoublyLinkedList<T> alist = readFileData();
 
         if (alist == null) {
             // no data inside
@@ -222,8 +221,8 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    private T contains(int primaryKey, ArrayList<T> alist) {
-        for (int i = 0; i < alist.getNumberOfEntries(); i++) {
+    private T contains(int primaryKey, DoublyLinkedList<T> alist) {
+        for (int i = 0; i < alist.size(); i++) {
 //            if () {
 //                t.getPrimary();
 //            }

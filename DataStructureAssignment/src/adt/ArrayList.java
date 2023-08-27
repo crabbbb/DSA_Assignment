@@ -19,7 +19,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
 
     @Override
     public boolean add(T newEntry) {
-        if(isFull()){
+        if (isFull()) {
             expandArray();
         }
         array[numberOfEntries] = newEntry;
@@ -30,8 +30,8 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     @Override
     public boolean add(int position, T newEntry) {
         boolean yes = false;
-        if(position >= 0 && position < numberOfEntries){
-            if(isFull()){
+        if (position >= 0 && position < numberOfEntries) {
+            if (isFull()) {
                 expandArray();
             }
             createRoom(position);
@@ -45,7 +45,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     @Override
     public T remove(int position) {
         T result = null;
-        if(position >= 0 && position < numberOfEntries){
+        if (position >= 0 && position < numberOfEntries) {
             result = array[position];
             removeGap(position);
             numberOfEntries--;
@@ -61,7 +61,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     @Override
     public boolean replace(int position, T newEntry) {
         boolean yes = false;
-        if(position >= 0 && position < numberOfEntries){
+        if (position >= 0 && position < numberOfEntries) {
             array[position] = newEntry;
             yes = true;
         }
@@ -80,9 +80,9 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     @Override
     public boolean contain(T entry) {
         boolean yes = false;
-        if(!isEmpty()){
+        if (!isEmpty()) {
             for (int i = 0; i < numberOfEntries; i++) {
-                if(entry.equals(array[i])){
+                if (entry.equals(array[i])) {
                     yes = true;
                     break;
                 }
@@ -114,7 +114,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
             TutorialGroup.sort(array, numberOfEntries);
         }
     }
-    
+
     public void expandArray() {
         T[] oldArray = array;
         array = (T[]) new Object[oldArray.length * 2];
@@ -122,14 +122,14 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
             array[i] = oldArray[i];
         }
     }
-    
+
     public void removeGap(int position) {
         for (int i = position; i < (numberOfEntries - 1); i++) {
             array[i] = array[i + 1];
         }
     }
-    
-    public void createRoom(int position){
+
+    public void createRoom(int position) {
         for (int i = (numberOfEntries - 1); i >= position; i++) {
             array[i + 1] = array[i];
         }

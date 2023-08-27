@@ -1,19 +1,394 @@
 package adt;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class DoublyLinkedList<T> implements Iterable<T> {
+public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable {
 
     private int size;
-    private Node<T> head = null;
-    private Node<T> tail = null;
+    private Node head;
+    private Node tail;
 
-    private class Node<T> {
+    public DoublyLinkedList() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    @Override
+    public void clear() {
+        Node currentNode = head;
+        while (currentNode != null) {
+            Node next = currentNode.next;
+            currentNode.prev = currentNode.next = null;
+            currentNode.data = null;
+            currentNode = next;
+        }
+        head = tail = currentNode = null;
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return this.size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    /**
+     * Find the index of a particular value in the linked list, O(n)
+     *
+     * @param entry
+     * @return -1 when entry is not found in list or the list is empty
+     */
+    @Override
+    public int indexOf(T entry) {
+
+        if (!isEmpty()) {
+            Node currentNode = head;
+            // targetNode = 0
+            int i = 0;
+            while (currentNode != null) {
+                if (entry.equals(currentNode.data)) {
+                    return i;
+                }
+
+                // if not
+                currentNode = currentNode.next;
+                i++;
+            }
+        }
+
+        return -1; // -1 will be not found or the list is empty
+    }
+
+    @Override
+    public boolean contains(T entry) {
+        return indexOf(entry) != -1;
+    }
+
+    @Override
+    public boolean isFull() {
+        return false;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new DoublyLinkedListIterator();
+    }
+
+    /**
+     * @param newEntry
+     * @return false when the newEntry is null
+     */
+    @Override
+    public boolean add(T newEntry) {
+        return addLast(newEntry);
+    }
+
+    /**
+     * position should be > 0 && <= size + 1 @pa
+     *
+     *
+     * ram position
+     *
+     * ram position @param newEntry @return true when it is successful added,
+     * fal
+     *
+     * s
+     * e will be cause when position is not in range and newEntry is null
+     */
+    @Override
+    public boolean add(int position, T newEntry) {
+        if ((position > 0 && position <= size() + 1) && newEntry != null) {
+            // in range
+            if (position == 1) {
+                // call addFirst
+                addFirst(newEntry);
+            } else if (position == size() + 1) {
+                // call addLast
+                addLast(newEntry);
+            } else {
+                // here doesnt have empty problem because already handle by addFirst
+                // get index
+                position--;
+                Node targetNode = returnTargetNode(position);
+
+                Node newNode = new Node(newEntry);
+                // change the upper of newNode to upper of the targetNode
+                newNode.prev = targetNode.prev;
+                // change the lower of the upper targetNode to newNode
+                targetNode.prev.next = newNode;
+                // the upper of the targetNode will become newNode
+                targetNode.prev = newNode;
+                newNode.next = targetNode;
+
+                size++;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return false when the newEntry is null
+     * @param newEntry
+     */
+    @Override
+    public boolean addFirst(T newEntry) {
+        if (newEntry != null) {
+            if (isEmpty()) {
+                head = tail = new Node(newEntry);
+            } else {
+                head.prev = new Node(newEntry, null, head);
+                head = head.prev;
+            }
+            size++;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return false when the newEntry is null
+     * @param newEntry
+     */
+    @Override
+    public boolean addLast(T newEntry) {
+        if (newEntry != null) {
+            if (isEmpty()) {
+                head = tail = new Node(newEntry);
+            } else {
+                tail.next = new Node(newEntry, tail, null);
+                tail = tail.next;
+            }
+            size++;
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public T peekFirst() {
+        if (!isEmpty()) {
+            return head.data;
+        }
+
+        return null;
+    }
+
+    @Override
+    public T peekLast() {
+        if (!isEmpty()) {
+            return tail.data;
+        }
+
+        return null;
+    }
+
+    @Override
+    public T get(int position) {
+        // check position
+        if (position > 0 && position <= size()) {
+            // in range
+            Node currentNode = null;
+
+            // get index
+            position--;
+
+            if (position < size() / 2) {
+                // ssarch start from head
+                currentNode = head;
+                for (int i = 0; i < position; i++) {
+                    currentNode = currentNode.next;
+                }
+            } else {
+                // search start from tail
+                currentNode = tail;
+                for (int i = size() - 1; i > position; i--) {
+                    currentNode = currentNode.prev;
+                }
+            }
+
+            return currentNode.data;
+        }
+
+        return null;
+    }
+
+    @Override
+    public T removeFirst() {
+        if (!isEmpty()) {
+            T data = head.data;
+            // update head to next
+            head = head.next;
+            size--;
+
+            // check isit no value already
+            if (isEmpty()) {
+                // make head and tail all become null
+                clear();
+            } else {
+                // change the upper of the head become null
+                head.prev = null;
+            }
+
+            return data;
+        }
+
+        return null;
+    }
+
+    @Override
+    public T removeLast() {
+        if (!isEmpty()) {
+            T data = tail.data;
+            // update tail to previous
+            tail = tail.prev;
+            size--;
+
+            // check isit no value already
+            if (isEmpty()) {
+                // make head and tail all become null
+                clear();
+            } else {
+                // change the lower of the tail become null
+                tail.next = null;
+            }
+
+            return data;
+        }
+
+        return null;
+    }
+
+    /**
+     * use to delete value from list by using position
+     *
+     * @param position
+     * @return data when the position is correct
+     */
+    @Override
+    public T remove(int position) {
+        // check position
+        if (position > 0 && position <= size()) {
+            // in range
+            if (position == 1) {
+                return removeFirst();
+            } else if (position == size()) {
+                return removeLast();
+            } else {
+                // get index
+                position--;
+
+                // get node
+                Node deleteNode = returnTargetNode(position);
+
+                deleteNode.prev.next = deleteNode.next;
+                deleteNode.next.prev = deleteNode.prev;
+
+                return deleteNode.data;
+            }
+
+        }
+
+        return null;
+    }
+
+    /**
+     * <b> will only delete the first match value </b>
+     *
+     * @return false when the entry is null && data is no exist && list is empty
+     */
+    @Override
+    public T remove(T entry) {
+        if (entry != null && !isEmpty()) {
+
+            // find in list
+            int index = indexOf(entry);
+
+            if (index != -1) {
+                return remove(++index);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean replace(int position, T newEntry) {
+        // check empty + newEntry cannot be null
+        if (newEntry != null && !isEmpty() && (position > 0 && position <= size())) {
+            // get index
+            position--;
+            Node targetNode = returnTargetNode(position);
+            if (targetNode != null) {
+                // exist in list
+                targetNode.data = newEntry;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String str = "[ ";
+        Node trav = head;
+        while (trav != null) {
+            str += trav.data + ", ";
+            trav = trav.next;
+        }
+        str += "\b\b\n]";
+        return str;
+    }
+
+    /**
+     * in returnTargetNode will not check the index isit in range or not need to
+     * check before using it
+     */
+    private Node returnTargetNode(int index) {
+        Node currentNode = null;
+
+        if (index < size() / 2) {
+            // loop start from head
+            currentNode = head;
+            for (int i = 0; i < index; i++) {
+                currentNode = currentNode.next;
+            }
+        } else {
+            // loop start from tail
+            currentNode = tail;
+            for (int i = size() - 1; i > index; i--) {
+                currentNode = currentNode.prev;
+            }
+        }
+
+        return currentNode;
+    }
+
+    private class Node implements Serializable {
 
         T data;
-        Node<T> prev, next;
+        Node prev, next;
 
-        public Node(T data, Node<T> prev, Node<T> next) {
+        public Node() {
+            this(null);
+        }
+
+        public Node(T data) {
+            this(data, null, null);
+        }
+
+        public Node(T data, Node prev, Node next) {
             this.data = data;
             this.prev = prev;
             this.next = next;
@@ -25,264 +400,20 @@ public class DoublyLinkedList<T> implements Iterable<T> {
         }
     }
 
-    public void clear() {
-        Node<T> trav = head;
-        while (trav != null) {
-            Node<T> next = trav.next;
-            trav.prev = trav.next = null;
-            trav.data = null;
-            trav = next;
-        }
-        head = tail = trav = null;
-        size = 0;
-    }
+    private class DoublyLinkedListIterator implements Iterator<T> {
 
-    public int size() {
-        return this.size;
-    }
+        private Node trav = head;
 
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    public void add(T elem) {
-        addLast(elem);
-    }
-
-    public void addFirst(T elem) {
-        if (isEmpty()) {
-            head = tail = new Node<T>(elem, null, null);
-        } else {
-            head.prev = new Node<T>(elem, null, head);
-            head = head.prev;
-        }
-        size++;
-    }
-
-    public void addLast(T elem) {
-        if (isEmpty()) {
-            head = tail = new Node<T>(elem, null, null);
-        } else {
-            tail.next = new Node<T>(elem, tail, null);
-            tail = tail.next;
-        }
-        size++;
-    }
-
-    public T peekFirst() {
-        if (isEmpty()) {
-            throw new RuntimeException("Empty List");
-        }
-        return head.data;
-    }
-
-    public T peekLast() {
-        if (isEmpty()) {
-            throw new RuntimeException("Empty List");
-        }
-        return tail.data;
-    }
-
-    public T removeFirst() {
-        if (isEmpty()) {
-            throw new RuntimeException("Empty List");
+        @Override
+        public boolean hasNext() {
+            return trav != null;
         }
 
-        //Extract the data at the head and move
-        //the head pointer forwards one node
-        T data = head.data;
-        head = head.next;
-        --size;
-
-        //If the list is empty then tail turn to tail as well
-        if (isEmpty()) {
-            tail = null;
-        } //Do a memory cleaning of the previous node
-        else {
-            head.prev = null;
-        }
-
-        //return the data that was at the first node we just removed
-        return data;
-    }
-
-    public T removeLast() {
-        if (isEmpty()) {
-            throw new RuntimeException("Empty List");
-        }
-
-        T data = tail.data;
-        tail = tail.prev;
-        --size;
-
-        if (isEmpty()) {
-            head = null;
-        } else {
-            tail.next = null;
-        }
-
-        return data;
-    }
-
-    private T remove(Node<T> node) {
-
-        //If the node to remove is somewhere either at the
-        //head or the tail handle those independently
-        if (node.prev == null) {
-            return removeFirst();
-        }
-        if (node.next == null) {
-            return removeLast();
-        }
-
-        //Make pointers of adjacent nodes skip over 'node'
-        node.next.prev = node.prev;
-        node.prev.next = node.next;
-
-        //Temporary store the data we want to return
-        T data = node.data;
-
-        //Memory Cleanup
-        node.data = null;
-        node = node.prev = node.next = null;
-
-        --size;
-
-        return data;
-    }
-
-    public T removeAt(int index) {
-        // Make sure the index provided is valid
-        if (index < 0 || index >= size) {
-            throw new IllegalArgumentException();
-        }
-
-        int i;
-        Node<T> trav;
-
-        // Search from the front of the list
-        if (index < size / 2) {
-            for (i = 0, trav = head; i != index; i++) {
-                trav = trav.next;
-            }
-            // Search from the back of the list
-        } else {
-            for (i = size - 1, trav = tail; i != index; i--) {
-                trav = trav.prev;
-            }
-        }
-
-        return remove(trav);
-    }
-
-    // Remove a particular value in the linked list, O(n)
-    public boolean remove(T obj) {
-        Node<T> trav = head;
-
-        // Support searching for null
-        if (obj == null) {
-            for (trav = head; trav != null; trav = trav.next) {
-                if (trav.data == null) {
-                    remove(trav);
-                    return true;
-                }
-            }
-            // Search for non null object
-        } else {
-            for (trav = head; trav != null; trav = trav.next) {
-                if (obj.equals(trav.data)) {
-                    remove(trav);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean search(T entry) {
-        Node<T> current = head;
-        while (current != null) {
-            if (current.data.equals(entry)) {
-                return true; // Found the element
-            }
-            current = current.next;
-        }
-        return false; // Element not found
-    }
-    
-    // Find the index of a particular value in the linked list, O(n)
-    public int indexOf(T obj) {
-        int index = 0;
-        Node<T> trav = head;
-
-        // Support searching for null
-        if (obj == null) {
-            for (; trav != null; trav = trav.next, index++) {
-                if (trav.data == null) {
-                    return index;
-                }
-            }
-            // Search for non null object
-        } else {
-            for (; trav != null; trav = trav.next, index++) {
-                if (obj.equals(trav.data)) {
-                    return index;
-                }
-            }
-        }
-        return -1;
-    }
-
-    public T getDataAtPosition(int position) {
-        Node<T> current = head;
-        int currentPosition = 0;
-
-        while (current != null && currentPosition < position) {
-            current = current.next;
-            currentPosition++;
-        }
-
-        if (current != null) {
-            return current.data;
-        } else {
-            throw new IndexOutOfBoundsException("Position out of bounds");
-        }
-    }
-
-    // Check is a value is contained within the linked list
-    public boolean contains(T obj) {
-        return indexOf(obj) != -1;
-    }
-
-    @Override
-    public java.util.Iterator<T> iterator() {
-        return new java.util.Iterator<T>() {
-            private Node<T> trav = head;
-
-            @Override
-            public boolean hasNext() {
-                return trav != null;
-            }
-
-            @Override
-            public T next() {
-                T data = trav.data;
-                trav = trav.next;
-                return data;
-            }
-
-        };
-    }
-
-    @Override
-    public String toString() {
-        String str = "[ ";
-        Node<T> trav = head;
-        while (trav != null) {
-            str += trav.data + ", ";
+        @Override
+        public T next() {
+            T data = trav.data;
             trav = trav.next;
+            return data;
         }
-        str += "\b\b\n]";
-        return str;
     }
 }
