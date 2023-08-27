@@ -3,7 +3,6 @@ package entity;
 /**
  * @author LOH XIN JIE
  */
-import adt.*;
 import dao.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,12 +17,14 @@ public class Programme extends DBModel implements Serializable {
 
     private String programmeDescription;
 
+    private static final String FILENAME = "Programme";
+
     public Programme() {
-        super("Programme");
+        super(FILENAME);
     }
 
     public Programme(String programmeID, String programmeName, int programmeCapacity, String programmeDescription) {
-        super("Programme");
+        super(FILENAME);
         this.programmeID = programmeID;
         this.programmeName = programmeName;
         this.programmeDescription = programmeDescription;
@@ -84,6 +85,11 @@ public class Programme extends DBModel implements Serializable {
     @Override
     public String toString() {
         return "Programme{" + "programmeID=" + programmeID + ", programmeName=" + programmeName + ", programmeDescription=" + programmeDescription + '}';
+    }
+
+    @Override
+    public Object getPrimary() {
+        return programmeID;
     }
 
 }

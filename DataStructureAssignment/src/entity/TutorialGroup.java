@@ -1,15 +1,22 @@
 package entity;
 
-public class TutorialGroup {
+import dao.DBModel;
+import java.io.Serializable;
+
+public class TutorialGroup extends DBModel implements Serializable {
 
     private String tutorialGrpId;
     private int groupSize;
     private String programmeID;
 
+    private static final String FILENAME = "TutorialGroup";
+
     public TutorialGroup() {
+        super(FILENAME);
     }
 
     public TutorialGroup(String tutorialGrpId, int groupSize, String programmeID) {
+        super(FILENAME);
         this.tutorialGrpId = tutorialGrpId;
         this.groupSize = groupSize;
         this.programmeID = programmeID;
@@ -125,6 +132,11 @@ public class TutorialGroup {
     public String toString() {
         String str = "GroupName : " + this.tutorialGrpId + "\nGroup Size : " + this.groupSize;
         return str;
+    }
+
+    @Override
+    public Object getPrimary() {
+        return tutorialGrpId;
     }
 
 }

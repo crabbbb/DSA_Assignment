@@ -1,16 +1,23 @@
 package entity;
 
-public class Student {
+import dao.DBModel;
+import java.io.Serializable;
+
+public class Student extends DBModel implements Serializable {
 
     private String id;
     private String name;
     private int age;
     private String tutGrpId;
 
+    private static final String FILENAME = "Student";
+
     public Student() {
+        super(FILENAME);
     }
 
     public Student(String id, String name, int age, String tutGrpId) {
+        super(FILENAME);
         this.id = id;
         this.name = name;
         this.age = age;
@@ -51,6 +58,11 @@ public class Student {
 
     public String toString() {
         return "\nID : " + this.id + "\nName : " + this.name + "\nAge : " + this.age;
+    }
+
+    @Override
+    public Object getPrimary() {
+        return id;
     }
 
 }
