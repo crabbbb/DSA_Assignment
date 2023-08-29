@@ -71,6 +71,25 @@ public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable
     }
 
     @Override
+    public T[] asArray() {
+        if (!isEmpty()) {
+            T[] array = (T[]) new Object[size];
+            Node currentNode = head;
+
+            int i = 0;
+            while (currentNode != null) {
+                array[i] = currentNode.data;
+                currentNode = currentNode.next;
+                i++;
+            }
+
+            return array;
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean isFull() {
         return false;
     }
@@ -402,7 +421,11 @@ public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable
 
     private class DoublyLinkedListIterator implements Iterator<T> {
 
-        private Node trav = head;
+        private Node trav;
+
+        public DoublyLinkedListIterator() {
+            this.trav = head;
+        }
 
         @Override
         public boolean hasNext() {

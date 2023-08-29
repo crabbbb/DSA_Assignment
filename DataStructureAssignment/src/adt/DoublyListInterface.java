@@ -15,6 +15,8 @@ public interface DoublyListInterface<T> {
 
     boolean contains(T entry);
 
+    T[] asArray();
+
     //T getEntry(int position);
     boolean isFull();
 

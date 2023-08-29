@@ -10,13 +10,11 @@ public interface DBInterface<T extends DBModel> {
 
     boolean Add(T newEntry) throws IOException, ClassNotFoundException;
 
-    boolean Delete(T anEntry);
+    boolean Delete(T anEntry) throws IOException, ClassNotFoundException;
 
-    boolean Update(T newEntry);
+    boolean Update(T newEntry) throws IOException, ClassNotFoundException;
 
-    T getWithId(int ID) throws IOException, ClassNotFoundException;
-
-    T getWithId(String ID);
+    T getWithId(Object ID) throws IOException, ClassNotFoundException;
 
     DoublyLinkedList<T> getAll() throws IOException, ClassNotFoundException;
 }

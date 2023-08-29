@@ -23,6 +23,11 @@ public class Programme extends DBModel implements Serializable {
         super(FILENAME);
     }
 
+    public Programme(String programmeID) {
+        super(FILENAME);
+        this.programmeID = programmeID;
+    }
+
     public Programme(String programmeID, String programmeName, int programmeCapacity, String programmeDescription) {
         super(FILENAME);
         this.programmeID = programmeID;
@@ -84,7 +89,7 @@ public class Programme extends DBModel implements Serializable {
 
     @Override
     public String toString() {
-        return "Programme{" + "programmeID=" + programmeID + ", programmeName=" + programmeName + ", programmeDescription=" + programmeDescription + '}';
+        return String.format("%4s %-30s\t %10s\n", programmeID, programmeName, programmeDescription);
     }
 
     @Override
