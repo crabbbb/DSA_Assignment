@@ -3,7 +3,7 @@ package entity;
 import dao.DBModel;
 import java.io.Serializable;
 
-public class Student extends DBModel implements Serializable {
+public class Student extends DBModel<Student> implements Serializable {
 
     private String id;
     private String name;
@@ -63,6 +63,11 @@ public class Student extends DBModel implements Serializable {
     @Override
     public Object getPrimary() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return this.id.toUpperCase().compareTo(o.id.toUpperCase());
     }
 
 }

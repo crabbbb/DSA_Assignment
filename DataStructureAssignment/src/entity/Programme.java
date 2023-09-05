@@ -7,7 +7,7 @@ import dao.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Programme extends DBModel implements Serializable, Comparable<Programme> {
+public class Programme extends DBModel<Programme> implements Serializable {
 
     //RSW
     private String programmeID;

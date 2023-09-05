@@ -3,7 +3,7 @@ package entity;
 import dao.DBModel;
 import java.io.Serializable;
 
-public class TutorialGroup extends DBModel implements Serializable, Comparable<TutorialGroup> {
+public class TutorialGroup extends DBModel<TutorialGroup> implements Serializable {
 
     private String tutorialGrpId;
     private int groupSize;
