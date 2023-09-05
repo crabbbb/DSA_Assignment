@@ -3,7 +3,7 @@ package dao;
 /**
  * @author LOH XIN JIE
  */
-public abstract class DBModel {
+public abstract class DBModel<T> implements Comparable<T> {
 
     private final String FILENAME;
 
