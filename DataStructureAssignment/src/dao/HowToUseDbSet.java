@@ -49,6 +49,9 @@ public class HowToUseDbSet {
             System.out.println("Function getWithId() find RSW > " + db.Programme.getWithId("RSW"));
             System.out.println("Function getWithId() find no exist value > " + db.Programme.getWithId("RBB"));
 
+            Programme[] p = (Programme[]) list.asArray();
+            System.out.println(p);
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         } catch (ClassNotFoundException ex) {

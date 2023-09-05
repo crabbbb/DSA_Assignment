@@ -7,7 +7,7 @@ import dao.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Programme extends DBModel implements Serializable {
+public class Programme extends DBModel implements Serializable, Comparable<Programme> {
 
     //RSW
     private String programmeID;
@@ -16,6 +16,8 @@ public class Programme extends DBModel implements Serializable {
     private String programmeName;
 
     private String programmeDescription;
+
+    private int targetCapacity;
 
     private static final String FILENAME = "Programme";
 
@@ -28,11 +30,12 @@ public class Programme extends DBModel implements Serializable {
         this.programmeID = programmeID;
     }
 
-    public Programme(String programmeID, String programmeName, int programmeCapacity, String programmeDescription) {
+    public Programme(String programmeID, String programmeName, int targetCapacity, String programmeDescription) {
         super(FILENAME);
         this.programmeID = programmeID;
         this.programmeName = programmeName;
         this.programmeDescription = programmeDescription;
+        this.targetCapacity = targetCapacity;
     }
 
     public String getProgrammeID() {
@@ -47,6 +50,10 @@ public class Programme extends DBModel implements Serializable {
         return programmeDescription;
     }
 
+    public int getTargetCapacity() {
+        return targetCapacity;
+    }
+
     public void setProgrammeID(String programmeID) {
         this.programmeID = programmeID;
     }
@@ -57,6 +64,10 @@ public class Programme extends DBModel implements Serializable {
 
     public void setProgrammeDescription(String programmeDescription) {
         this.programmeDescription = programmeDescription;
+    }
+
+    public void setTargetCapacity(int targetCapacity) {
+        this.targetCapacity = targetCapacity;
     }
 
     @Override
@@ -89,12 +100,17 @@ public class Programme extends DBModel implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%4s %-30s\t %10s\n", programmeID, programmeName, programmeDescription);
+        return String.format("%4s %-30s\t %10s %6d\n", programmeID, programmeName, programmeDescription, targetCapacity);
     }
 
     @Override
     public Object getPrimary() {
         return programmeID;
+    }
+
+    @Override
+    public int compareTo(Programme o) {
+        return this.programmeID.toUpperCase().compareTo(o.programmeID.toUpperCase());
     }
 
 }

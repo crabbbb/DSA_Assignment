@@ -50,8 +50,8 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
      */
     private boolean createFile() throws IOException {
         try {
-            //File create message
-            Message.InformationMessage("File create successfull");
+            // File create message
+            //Message.InformationMessage("File create successfull");
 
             return new File(t.getFileName() + ".txt").createNewFile();
         } catch (IOException ex) {

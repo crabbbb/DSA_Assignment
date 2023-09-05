@@ -2,7 +2,7 @@ package adt;
 
 import java.util.Iterator;
 
-public interface DoublyListInterface<T> {
+public interface List<T> {
 
     // utility
     void clear();
@@ -15,7 +15,9 @@ public interface DoublyListInterface<T> {
 
     boolean contains(T entry);
 
-    T[] asArray();
+    Object[] asArray();
+
+    void sort();
 
     //T getEntry(int position);
     boolean isFull();

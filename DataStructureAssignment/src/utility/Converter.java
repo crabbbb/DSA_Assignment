@@ -1,4 +1,4 @@
-package Utility;
+package utility;
 
 /**
  * @author LOH XIN JIE
@@ -18,6 +18,10 @@ public class Converter {
 
     public static String convertToString(Object obj) {
         return String.valueOf(obj);
+    }
+
+    public static int convertStringToInteger(String s) throws NumberFormatException {
+        return Integer.parseInt(s);
     }
 
     //example : 20230408161001529
