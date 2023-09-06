@@ -13,6 +13,7 @@ public class ProgrammeControl {
 
     private DBTable db;
     private ProgrammeTutorialGrpControl ptgControl;
+    private Programme programme;
 
     public ProgrammeControl() {
         db = new DBTable();
@@ -28,16 +29,50 @@ public class ProgrammeControl {
         return null;
     }
 
-    public Object[] convertToObject() {
+    public Programme getTargetProgramme(String programmeId) {
+        try {
+            return db.Programme.getWithId(programmeId);
+        } catch (IOException | ClassNotFoundException ex) {
+            Message.ErrorMessage(ex.getMessage());
+        }
+
         return null;
+    }
+
+    public Programme searchProgrammeByID(String targetID, DoublyLinkedList<Programme> plist) {
+        // make sure is not empty
+        if (plist != null && !plist.isEmpty()) {
+            // do sorting
+            plist.sort();
+
+            Programme currentProgramme = null;
+
+            for (int i = 0; i < plist.size(); i++) {
+                currentProgramme = plist.get(i + 1);
+
+                int result = currentProgramme.compareTo(new Programme(targetID));
+
+                if (result > 0) {
+                    // already bigger than
+                    return null;
+                } else if (result == 0) {
+                    return currentProgramme;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Programme search(String programmeID) {
+        return searchProgrammeByID(programmeID, getAllData());
     }
 
     public boolean saveIntoFile(Programme p, int numberOfTutGrp) {
         try {
             if (db.Programme.Add(p)) {
                 // successfull add Programme
-                ptgControl.addTutorialGrp(numberOfTutGrp, p.getProgrammeID());
-
+                ptgControl.addTutorialGrpByGenerateID(numberOfTutGrp, p.getProgrammeID());
                 return true;
             }
 
@@ -46,6 +81,26 @@ public class ProgrammeControl {
         }
 
         return false;
+    }
+
+    public boolean updateProgramme(Programme p) {
+        try {
+            return db.Programme.Update(p);
+        } catch (IOException | ClassNotFoundException ex) {
+            Message.ErrorMessage(ex.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean deleteProgramme(Programme p) {
+        try {
+            return db.Programme.Delete(p);
+        } catch (IOException | ClassNotFoundException ex) {
+            Message.ErrorMessage(ex.getMessage());
+        }
+
+        return true;
     }
 
     // programmeID cannot have special character, cannot be empty, must in 3 character
@@ -92,7 +147,7 @@ public class ProgrammeControl {
                 int target = Converter.convertStringToInteger(targetCapacity);
 
                 // check negative value
-                if (target > 0) {
+                if (target >= 0) {
                     return target;
                 } else {
                     // smaller and equals to 0
@@ -116,7 +171,7 @@ public class ProgrammeControl {
                 int number = Converter.convertStringToInteger(numberOfTutGrp);
 
                 // check negative value
-                if (number > 0) {
+                if (number >= 0) {
                     return number;
                 } else {
                     // smaller and equals to 0

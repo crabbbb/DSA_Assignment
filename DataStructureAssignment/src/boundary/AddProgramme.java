@@ -9,13 +9,13 @@ import utility.Message;
  */
 public class AddProgramme extends javax.swing.JFrame {
 
-    private ProgrammeControl pcontrol;
+    private ProgrammeControl pControl;
 
     /**
      * Creates new form ProgrammeMenu
      */
     public AddProgramme() {
-        pcontrol = new ProgrammeControl();
+        pControl = new ProgrammeControl();
         initComponents();
     }
 
@@ -53,6 +53,7 @@ public class AddProgramme extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
 
@@ -195,12 +196,19 @@ public class AddProgramme extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jButton1.setText("CREATE");
+        jButton1.setBackground(new java.awt.Color(153, 255, 153));
+        jButton1.setText("Create");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(255, 153, 153));
+        jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -213,7 +221,9 @@ public class AddProgramme extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
             .addComponent(jTextField3)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap(317, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -232,7 +242,9 @@ public class AddProgramme extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
 
@@ -338,6 +350,10 @@ public class AddProgramme extends javax.swing.JFrame {
         jTextArea1.setText("");
     }
 
+    private void closeFrame() {
+        this.dispose();
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // programmeID cannot have special character, cannot be empty, must in 3 character
@@ -350,15 +366,15 @@ public class AddProgramme extends javax.swing.JFrame {
             int targetCapacity;
             int numberOfTutGrp;
 
-            if ((programmeID = pcontrol.programmeIdValidate(jTextField1.getText())) != null) {
-                if ((programmeName = pcontrol.programmeNameValidate(jTextField2.getText())) != null) {
+            if ((programmeID = pControl.programmeIdValidate(jTextField1.getText())) != null) {
+                if ((programmeName = pControl.programmeNameValidate(jTextField2.getText())) != null) {
                     description = jTextArea1.getText();
-                    if ((targetCapacity = pcontrol.targetCapacityValidate(jTextField3.getText())) != -1) {
-                        if ((numberOfTutGrp = pcontrol.numberOfTutGrpValidate(jTextField4.getText())) != -1) {
+                    if ((targetCapacity = pControl.targetCapacityValidate(jTextField3.getText())) != -1) {
+                        if ((numberOfTutGrp = pControl.numberOfTutGrpValidate(jTextField4.getText())) != -1) {
                             // all no problem
-                            Programme p = new Programme(programmeID, programmeName, targetCapacity, description);
+                            Programme p = new Programme(programmeID.toUpperCase(), programmeName, targetCapacity, description);
 
-                            if (pcontrol.saveIntoFile(p, numberOfTutGrp)) {
+                            if (pControl.saveIntoFile(p, numberOfTutGrp)) {
                                 // send message say success
                                 Message.InformationMessage("Programme & Tutorial Group Have been successful added !");
 
@@ -376,6 +392,13 @@ public class AddProgramme extends javax.swing.JFrame {
             Message.ErrorMessage("Invalid format error\nTarget Quantity and Number Of Tutorial Group Create must in NUMERIC FROMAT! ( eg : 5 )");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    // cancel button
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (Message.OKOptionMessage("Discard Your change ? ")) {
+            closeFrame();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,6 +438,7 @@ public class AddProgramme extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
