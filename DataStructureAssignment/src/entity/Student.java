@@ -1,5 +1,11 @@
 package entity;
 
+/***
+ * 
+ * @author ENG JIA JEAN
+ */
+
+
 import adt.DoublyLinkedList;
 import dao.DBModel;
 import java.io.Serializable;
