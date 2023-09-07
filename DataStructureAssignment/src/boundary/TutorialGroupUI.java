@@ -1,4 +1,4 @@
-package ui;
+package boundary;
 
 import java.util.Scanner;
 import adt.*;
