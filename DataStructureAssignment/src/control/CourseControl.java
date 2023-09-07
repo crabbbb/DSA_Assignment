@@ -13,7 +13,7 @@ import utility.Message;
 
 /**
  *
- * @author idoll
+ * @author LOH XIN YI
  */
 public class CourseControl {
     //private ListInterface<Course> courseList = new DoublyLinkedList<>();

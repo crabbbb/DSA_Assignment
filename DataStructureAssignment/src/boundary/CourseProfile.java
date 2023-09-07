@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author idoll
+ * @author LOH XIN YI
  */
 public class CourseProfile{
     //private CourseControl ccontrol;

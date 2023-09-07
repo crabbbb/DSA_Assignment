@@ -9,7 +9,7 @@ import control.CourseControl;
 /**
  5
  * 
- * @author idoll
+ * @author LOH XIN YI
  */
 public class CourseUI {
     public static void main(String[] args) {

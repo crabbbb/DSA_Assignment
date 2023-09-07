@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  *
- * @author idoll
+ * @author LOH XIN YI
  */
 public class CourseProgrammeControl {
 
