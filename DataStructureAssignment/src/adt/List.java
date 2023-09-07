@@ -19,7 +19,6 @@ public interface List<T> {
 
     void sort();
 
-    //T getEntry(int position);
     boolean isFull();
 
     Iterator<T> iterator();

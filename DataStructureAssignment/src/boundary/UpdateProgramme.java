@@ -559,7 +559,7 @@ public class UpdateProgramme extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // reset programme detail, tutorial group, clear stack for delete
         assignValue();
-        currentTtlGrpList = orgTtlGrpList;
+        currentTtlGrpList = ptgControl.getTtlGrpByPrograme(programme.getProgrammeID());
         addValueToTable(orgTtlGrpList);
         readyToDelete.clear();
         readyToAdd.clear();
