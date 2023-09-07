@@ -6,7 +6,7 @@ package entity;
 import dao.*;
 /**
  *
- * @author idoll
+ * @author LOH XIN YI
  */
 public class Course extends DBModel<Course>{
     //bacs 1107

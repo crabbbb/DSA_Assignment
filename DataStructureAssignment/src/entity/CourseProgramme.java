@@ -10,7 +10,7 @@ import dao.DBModel;
 
 /**
  *
- * @author idoll
+ * @author LOH XIN YI
  */
 public class CourseProgramme extends DBModel<CourseProgramme> {
 
