@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package boundary;
 
 import adt.*;
@@ -22,7 +18,7 @@ public class UpdateProgramme extends javax.swing.JFrame {
     private DoublyLinkedList<TutorialGroup> orgTtlGrpList;
     private DoublyLinkedList<TutorialGroup> currentTtlGrpList;
     private DoublyLinkedList<TutorialGroup> readyToAdd;
-    private ArrayStack<TutorialGroup> readyToDelete;
+    private LinkedStack<TutorialGroup> readyToDelete;
     private javax.swing.table.DefaultTableModel model;
 
     /**
@@ -33,7 +29,7 @@ public class UpdateProgramme extends javax.swing.JFrame {
     public UpdateProgramme(Programme programme) {
         this.ptgControl = new ProgrammeTutorialGrpControl();
         this.pControl = new ProgrammeControl();
-        this.readyToDelete = new ArrayStack<>();
+        this.readyToDelete = new LinkedStack<>();
         this.readyToAdd = new DoublyLinkedList<>();
 
         // initialize current programme

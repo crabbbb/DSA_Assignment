@@ -13,7 +13,6 @@ public class ProgrammeControl {
 
     private DBTable db;
     private ProgrammeTutorialGrpControl ptgControl;
-    private Programme programme;
 
     public ProgrammeControl() {
         db = new DBTable();

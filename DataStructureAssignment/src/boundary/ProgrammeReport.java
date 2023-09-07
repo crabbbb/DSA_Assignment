@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package boundary;
 
 import adt.*;
@@ -174,7 +170,6 @@ public class ProgrammeReport extends javax.swing.JFrame {
         jLabel7.setText("Total Number Of Programme : ");
 
         jTextField1.setEditable(false);
-        jTextField1.setText("jTextField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
