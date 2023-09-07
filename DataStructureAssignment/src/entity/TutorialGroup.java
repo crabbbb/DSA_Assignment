@@ -3,7 +3,7 @@ package entity;
 import dao.DBModel;
 import java.io.Serializable;
 
-public class TutorialGroup extends DBModel implements Serializable {
+public class TutorialGroup extends DBModel<TutorialGroup> implements Serializable {
 
     private String tutorialGrpId;
     private int groupSize;
@@ -13,6 +13,11 @@ public class TutorialGroup extends DBModel implements Serializable {
 
     public TutorialGroup() {
         super(FILENAME);
+    }
+
+    public TutorialGroup(String tutorialGrpId) {
+        super(FILENAME);
+        this.tutorialGrpId = tutorialGrpId;
     }
 
     public TutorialGroup(String tutorialGrpId, int groupSize, String programmeID) {
@@ -137,6 +142,11 @@ public class TutorialGroup extends DBModel implements Serializable {
     @Override
     public Object getPrimary() {
         return tutorialGrpId;
+    }
+
+    @Override
+    public int compareTo(TutorialGroup o) {
+        return this.tutorialGrpId.compareTo(o.tutorialGrpId);
     }
 
 }
