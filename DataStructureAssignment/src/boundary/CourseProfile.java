@@ -15,13 +15,7 @@ import java.util.Scanner;
  * @author LOH XIN YI
  */
 public class CourseProfile{
-    //private CourseControl ccontrol;
-    //private CourseProgrammeControl cpControl;
     
-    /*public CourseProfile(){
-        this.ccontrol = new CourseControl();
-        this.cpControl = new CourseProgrammeControl();
-    }*/
     
     public String getCourseID(){
         System.out.print("Enter Course ID(e.g BACS2063)                       :");
@@ -174,8 +168,23 @@ public class CourseProfile{
      *
      *
      */
-    public void reportOfCourse() {
+    public void reportOfCourse(DoublyLinkedList<Course> courseList) {
         //print out the data
+        int totalCourses = 0;
+        int totalCreditHours = 0;
+
+        // Iterate through the list of courses
+        Iterator<Course> iterator = courseList.iterator();
+        while (iterator.hasNext()) {
+            Course course = iterator.next();
+            totalCourses++;
+            totalCreditHours += course.getCreditHours();
+        }
+
+        // Display the report
+        System.out.println("Course Report");
+        System.out.println("Total Courses: " + totalCourses);
+        System.out.println("Total Credit Hours: " + totalCreditHours);
         
 
     }
@@ -185,28 +194,11 @@ public class CourseProfile{
         System.out.println("\n\n\n");
         System.out.print("Pls enter which course ID you are perform to add a new programme > \n");
         
-//        return getCourseID();
 
         
     }
 
     //check-------------------------------------------------------
-    public void courseIDOfRemoveProgramme(){
-        System.out.println("\n\n\n");
-        System.out.println("Please enter which course ID you are perform to remove an existing programme > \n");
-        
-//        removeProgramme();
-//        return getCourseID();
-
-    }
-    public String removeProgramme() {
-        System.out.println("\n\n\n");
-        System.out.println("Please enter which programme ID you are perform to remove in the course > \n");
-        return getProgrammeID();
-  
-        
-        
-    }
     
     // Message 
     public void displayInvalidMenuChoice() {

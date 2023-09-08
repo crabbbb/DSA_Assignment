@@ -60,7 +60,7 @@ public class CourseControl {
                     removeProgramme();
                     break;
                 case 8://report
-//                    courseUI.reportOfCourse();
+                    courseUI.reportOfCourse(getAllData());
                     break;
                 case 9:
                     System.out.println("Exiting the Course Management System.");
@@ -361,10 +361,7 @@ public class CourseControl {
     }
     
     
-    //Validation
-    /*public Object[] convertToObject() {
-        return null;
-    }*/
+   
     
     public int doModifyChoice(){
    
@@ -454,7 +451,6 @@ public class CourseControl {
   
     public String getProgrammeID(){
         String programmeID;
-        courseUI.courseIDOfRemoveProgramme();
         do{
             programmeID = courseUI.getProgrammeID();
         }while(!cpControl.doValidateProgrammeID(programmeID));
