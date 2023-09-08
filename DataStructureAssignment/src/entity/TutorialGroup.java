@@ -9,6 +9,7 @@ public class TutorialGroup extends DBModel<TutorialGroup> implements Serializabl
     private int groupSize;
     private String programmeID;
 
+    private static final int DEFAULT_SIZE = 0;
     private static final String FILENAME = "TutorialGroup";
 
     public TutorialGroup() {
@@ -18,6 +19,13 @@ public class TutorialGroup extends DBModel<TutorialGroup> implements Serializabl
     public TutorialGroup(String tutorialGrpId) {
         super(FILENAME);
         this.tutorialGrpId = tutorialGrpId;
+    }
+
+    public TutorialGroup(String tutorialGrpId, String programmeID) {
+        super(FILENAME);
+        this.tutorialGrpId = tutorialGrpId;
+        this.programmeID = programmeID;
+        this.groupSize = DEFAULT_SIZE;
     }
 
     public TutorialGroup(String tutorialGrpId, int groupSize, String programmeID) {
