@@ -9,7 +9,7 @@ import java.util.Iterator;
 import utility.Message;
 
 /*in this class all exception will be throw to ui to handle, except IOException that closeFile() maybe hit*/
-public class DbSet<T extends DBModel> implements DBInterface<T> {
+public class DbSet<T extends DBModel<T>> implements DBInterface<T>{
 
     private T t;
     private ObjectInputStream ois;
@@ -50,8 +50,8 @@ public class DbSet<T extends DBModel> implements DBInterface<T> {
      */
     private boolean createFile() throws IOException {
         try {
-            //File create message
-            Message.InformationMessage("File create successfull");
+            // File create message
+            //Message.InformationMessage("File create successfull");
 
             return new File(t.getFileName() + ".txt").createNewFile();
         } catch (IOException ex) {

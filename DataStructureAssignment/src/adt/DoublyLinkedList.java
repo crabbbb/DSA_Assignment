@@ -3,7 +3,7 @@ package adt;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable {
+public class DoublyLinkedList<T extends Comparable<T>> implements List<T>, Serializable {
 
     private int size;
     private Node head;
@@ -71,9 +71,9 @@ public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable
     }
 
     @Override
-    public T[] asArray() {
+    public Object[] asArray() {
         if (!isEmpty()) {
-            T[] array = (T[]) new Object[size];
+            Object[] array = new Object[size];
             Node currentNode = head;
 
             int i = 0;
@@ -87,6 +87,52 @@ public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable
         }
 
         return null;
+    }
+
+    /**
+     * only the list have value then can be perform
+     *
+     * PostCondition : the list arrange will be change after using this sort
+     * method
+     */
+    @Override
+    public void sort() {
+        if (!isEmpty()) {
+            if (size() > 1) {
+                Node currentNode = head;
+                int index = 0;
+                while (currentNode != null) {
+                    // get smallest
+                    Node smallestNode = getSmallest(index);
+                    T temp = currentNode.data;
+                    if (smallestNode != currentNode) {
+                        // no in true position start change
+                        currentNode.data = smallestNode.data;
+                        smallestNode.data = temp;
+                    }
+                    // update
+                    index++;
+                    currentNode = currentNode.next;
+                }
+            }
+        }
+    }
+
+    private Node getSmallest(int index) {
+        // the value of list that have not be sorting yet
+        Node unsortedList = returnTargetNode(index);
+        Node smallerNode = null;
+
+        for (int i = index; i < size(); i++) {
+            if (smallerNode == null) {
+                smallerNode = unsortedList; // 0
+            } else if (smallerNode.data.compareTo(unsortedList.data) > 0) {
+                smallerNode = unsortedList;
+            }
+            unsortedList = unsortedList.next; // 1
+        }
+
+        return smallerNode;
     }
 
     @Override
@@ -312,6 +358,7 @@ public class DoublyLinkedList<T> implements DoublyListInterface<T>, Serializable
                 deleteNode.prev.next = deleteNode.next;
                 deleteNode.next.prev = deleteNode.prev;
 
+                size--;
                 return deleteNode.data;
             }
 

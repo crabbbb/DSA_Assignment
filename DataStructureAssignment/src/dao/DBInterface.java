@@ -1,12 +1,12 @@
-package adt;
+package dao;
 
-import dao.DBModel;
+import adt.DoublyLinkedList;
 import java.io.IOException;
 
 /**
  * @author LOH XIN JIE
  */
-public interface DBInterface<T extends DBModel> {
+public interface DBInterface<T extends DBModel<T>> {
 
     boolean Add(T newEntry) throws IOException, ClassNotFoundException;
 

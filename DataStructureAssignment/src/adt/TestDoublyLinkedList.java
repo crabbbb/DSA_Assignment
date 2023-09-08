@@ -48,9 +48,18 @@ public class TestDoublyLinkedList {
 
         System.out.println(p);
         System.out.println("\n\nstart replace p4 index 0 -> p5 > " + p.replace(1, p5));
-
         System.out.println(p);
+
+        p.add(p1);
+        p.add(p2);
+        p.add(p3);
+        p.add(p4);
+        p.add(p5);
+        p.sort();
+        System.out.println(p);
+
         p.clear();
         System.out.println("\n\nafter clear > is empty : " + p.isEmpty());
+
     }
 }
