@@ -101,14 +101,13 @@ public class CourseProfile{
      * check id and remove
      * return result
      * design for exit or continue
-     * @return i
+     * 
      */ 
-    public String getRemoveCourse() {
+    public void getRemoveCourse() {
         
         System.out.println("\n\n\n");
         
-        System.out.print("Pls enter the Course that you want to remove ( 0 = exit ) > ");
-        return getCourseID();
+        System.out.print("Pls enter the Course that you want to remove ( 0 = exit ) > \n");
     }
 
     // change --------------------------------------------------------------------------
@@ -147,7 +146,7 @@ public class CourseProfile{
     /**
      * enter details check and valid course details return result design for
      * exit or continue
-     *@return what user have enter
+     *
      */
     public void addCourse() {
 

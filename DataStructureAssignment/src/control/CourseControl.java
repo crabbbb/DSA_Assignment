@@ -39,7 +39,8 @@ public class CourseControl {
                     addNewCourse();
                     break;
                 case 2://remove course
-                    courseUI.getRemoveCourse();
+                    //courseUI.getRemoveCourse();
+                    deleteCourse() ;
                     break;
 
                 case 3://find
@@ -78,47 +79,47 @@ public class CourseControl {
      * return message + id
      * read n add
      */ 
-    public void addNewCourse(){
-        String courseID, courseName,courseDescription,creditHours ;
-        
-        courseUI.addCourse();
-        //validate the input
-        courseID = doValidateCourseID();
-        
-        try {
-            Course c = db.Course.getWithId(courseID);
-            if(c == null){
-                // no exist
-                Course newCourse = new Course();
-                newCourse.setCourseID(courseID);
-                courseName = doValidateCourseName();
-                  
-                newCourse.setCourseName(courseName);
-                courseDescription = CourseDescriptionValidator();    
-                newCourse.setCourseDescription(courseDescription);
-                creditHours = CourseCHValidator();
-                double ch = Double.parseDouble(creditHours);
-                newCourse.setCreditHours(ch);
-                
-                db.Course.Add(newCourse);
-                System.out.println("Course ID" + courseID + "had added successfully.");
-                
-                
-            }else{
-                //error message
-                System.out.println("Course ID already been created.");
-                //doValidateCourseID();
+    public void addNewCourse() {
+        boolean stopCase = false;
+        do{
+            courseUI.addCourse();
+            //validate the input
+            String courseID = doValidateCourseID();
+            String courseName, courseDescription, creditHours;
+
+            try {
+                Course c = db.Course.getWithId(courseID);
+                if (c == null) {
+                    // no exist
+                    Course newCourse = new Course();
+                    newCourse.setCourseID(courseID);
+                    courseName = doValidateCourseName();
+
+                    newCourse.setCourseName(courseName);
+                    courseDescription = CourseDescriptionValidator();
+                    newCourse.setCourseDescription(courseDescription);
+                    creditHours = CourseCHValidator();
+                    double ch = Double.parseDouble(creditHours);
+                    newCourse.setCreditHours(ch);
+
+                    if(db.Course.Add(newCourse)){
+                        stopCase = true;
+                        System.out.println("Course ID " + courseID + " had added successfully.");
+                    }
+
+                } else {
+                    //error message
+                    System.out.println("Course ID already been created.");
+                }
+
+            } catch (IOException | ClassNotFoundException ex) {
+                // print error message
+                System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
+                stopCase = true;
+
             }
-         
-        } catch (IOException | ClassNotFoundException ex) {
-            // print error message
-            System.out.println("Course NOT Found, pls type again.");
-   
-        }
-        
-       
-              
-        
+        }while(!stopCase);
+
     }
     
     /**
@@ -172,7 +173,7 @@ public class CourseControl {
             if (courseName != null && !courseName.isEmpty()) {
 
                 for (int i = 0; i < courseName.length() && valid; i++) {
-                    if (!Character.isLetter(courseName.charAt(i))) {
+                    if (!Character.isLetter(courseName.charAt(i))  && ! Character.isWhitespace(courseName.charAt(i))) {
                     
                         valid = false;
                         System.out.println("Course Name only in Character.");
@@ -262,8 +263,10 @@ public class CourseControl {
      */ 
     public void deleteCourse() {
         //pgID 
-        String courseID, courseName,courseDescription,creditHours ;
-        courseID = doValidateCourseID();
+        //String courseID, courseName,courseDescription,creditHours ;
+        courseUI.getRemoveCourse();
+        String courseID = doValidateCourseID();
+        String courseName,courseDescription,creditHours ;
         
         try {
             Course c = db.Course.getWithId(courseID);

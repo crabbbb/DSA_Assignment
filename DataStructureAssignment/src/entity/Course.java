@@ -23,6 +23,7 @@ public class Course extends DBModel<Course> implements Serializable{
     }
 
     public Course(String courseID) {
+        super(FILENAME);
         this.courseID = courseID;
     }
 
