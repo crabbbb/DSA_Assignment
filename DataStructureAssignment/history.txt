@@ -1,0 +1,11 @@
+31/08/2023,23:36:13,WMR has been searched
+31/08/2023,23:36:47,RSTG1 has been displayed
+05/09/2023,14:51:56,23PMR09876 has been added into RSTG1
+05/09/2023,14:52:07,RSTG1 has been displayed
+05/09/2023,20:22:50,23PMR09876 has been deleted from RSTG1
+05/09/2023,20:22:56,RSTG1 has been displayed
+05/09/2023,21:02:20,Filter Group using Programme
+05/09/2023,21:17:16,23PMD01928 has been added into RSWG6
+05/09/2023,21:17:20,RSWG6 has been displayed
+05/09/2023,21:18:49,23WMR00002 has been deleted from RSWG6
+05/09/2023,21:18:56,RSWG7 has been displayed
