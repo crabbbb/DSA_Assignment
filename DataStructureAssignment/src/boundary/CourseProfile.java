@@ -124,23 +124,36 @@ public class CourseProfile{
     
     // change --------------------------------------------------------------------------
     
-    public String courseIDOfModifyCourse(){
+    /*public String courseIDOfModifyCourse(){
         System.out.println("\n\n\n");
-        System.out.println("Please enter which course ID you are perform to modify ( 0 = exit ) > ");
+        System.out.println("Please enter which course ID you are perform to modify ( 0 = exit ) > \n");
         modifyCourse();
         return getCourseID();
 
-    }
-    public int modifyCourse(){
+    }*/
+    public void modifyCourse(){
+        System.out.print("Enter Course ID to modify (0 to exit): ");
+        /*System.out.println("\n\n\n");
         System.out.println("Which part you will like to change: ");
         System.out.println("1. Course Name");
         System.out.println("2. Course Description");
         System.out.println("3. Credit Hours of the course");
         System.out.print("Enter Your Choice ( 1 - 3 ) ( 0 = exit ) > \n");
         int choice = new Scanner(System.in).nextInt();
-        return choice;
+        return choice;*/
         
         //return new Scanner(System.in).nextInt();
+    }
+    public int modifyChoice(){
+        // Ask the user what to modify
+        System.out.println("Choose what to modify:");
+        System.out.println("1. Course Name");
+        System.out.println("2. Course Description");
+        System.out.println("3. Credit Hours");
+        System.out.println("0. Exit");
+
+        int choice = new Scanner(System.in).nextInt();
+        return choice;
     }
         
     /**

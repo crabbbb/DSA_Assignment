@@ -48,14 +48,14 @@ public class CourseControl {
                     searchByCourseID();
                     break;
                 case 4://amend
-                    courseUI.courseIDOfModifyCourse();
+                    courseUI.modifyCourse();
                     break;
                 case 5://list all
                     courseUI.listAllCourse(getAllData());
                     break;
                 case 6://add programme
                     courseUI.addProgramme();
-                    cpControl.addProgrammeInCourse();
+                    //cpControl.addProgrammeInCourse();
                     break;
                 case 7://remove programme
                     courseUI.courseIDOfRemoveProgramme();
@@ -281,7 +281,7 @@ public class CourseControl {
                 newCourse.getCreditHours(creditHours);*/
 
                 db.Course.Delete(new Course(courseID));
-                System.out.println("Course "+ courseID +"remove successfully.");
+                System.out.println("Course "+ courseID +" remove successfully.");
                 
                 
 
@@ -294,12 +294,13 @@ public class CourseControl {
            
         }catch (IOException | ClassNotFoundException ex){
             // print error message
-            System.out.println("Course NOT Found, pls type again.");
+            System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
             //courseUI.getRemoveCourse();
         }
       
      
     }
+    
     
     /**
      * check id related
@@ -315,14 +316,18 @@ public class CourseControl {
 
         try {
             
-            CourseProgramme cp = db.CourseProgramme.getWithId(courseID);
+            Course c = db.Course.getWithId(courseID);
             
             
-            if (cp == null) {
-                System.out.println("There is no any result in the database based on your search.");
-                //db.Course.getWithId(courseID);
+            if (c != null) {
+                System.out.println("Course Found:");
+                System.out.println("Course ID: " + c.getCourseID());
+                System.out.println("Course Name: " + c.getCourseName());
+                System.out.println("Course Description: " + c.getCourseDescription());
+                System.out.println("Credit Hours: " + c.getCreditHours());
             }else{
-                db.Course.getWithId(courseID);
+                //display data
+                System.out.println("There is no any result in the database based on your search.");
                 
             }
             
@@ -356,6 +361,7 @@ public class CourseControl {
         return null;
     }
     
+    
     //Validation
     /*public Object[] convertToObject() {
         return null;
@@ -363,7 +369,7 @@ public class CourseControl {
     
     public int doValidateModifyChoice(){
    
-        int choice;
+        /*int choice;
         do{
             // get choice
             choice = courseUI.modifyCourse();
@@ -390,8 +396,67 @@ public class CourseControl {
             }
 
         }while(choice != 3);
-        return 0;
+        return 0;*/
         
+    }
+    
+    public void modifyCourse() {
+        courseUI.modifyCourse();
+        String courseID = doValidateCourseID();
+
+        if (courseID.equals("0")) {
+            System.out.println("Exiting the Modify Page.....");
+            return;
+        }
+
+        try {
+            Course c = db.Course.getWithId(courseID);
+            if (c != null) {
+                System.out.println("Course Found:");
+                System.out.println("Course ID: " + c.getCourseID());
+                System.out.println("Course Name: " + c.getCourseName());
+                System.out.println("Course Description: " + c.getCourseDescription());
+                System.out.println("Credit Hours: " + c.getCreditHours());
+
+                
+                int choice;
+                do{
+                    
+                    choice = courseUI.modifyChoice();
+                    switch (choice) {
+                        case 1:
+                            System.out.print("Enter new Course Name: ");
+                            String newCourseName = scanner.nextLine();
+                            c.setCourseName(newCourseName);
+                            break;
+                        case 2:
+                            System.out.print("Enter new Course Description: ");
+                            String newCourseDescription = scanner.nextLine();
+                            c.setCourseDescription(newCourseDescription);
+                            break;
+                        case 3:
+                            System.out.print("Enter new Credit Hours: ");
+                            double newCreditHours = Double.parseDouble(scanner.nextLine());
+                            c.setCreditHours(newCreditHours);
+                            break;
+                        case 0:
+                            System.out.println("Exiting the Modify Page.");
+                            return;
+                        default:
+                            System.out.println("Invalid choice.");
+                }while(choice ! = 3);
+
+                
+                
+
+                db.updateCourse(c);
+                System.out.println("Course " + courseID + " modified successfully.");
+            } else {
+                System.out.println("Course ID does not exist.");
+            }
+        } catch (IOException | ClassNotFoundException | NumberFormatException ex) {
+            System.out.println("An error occurred while accessing the database.");
+        }
     }
     public void doModifyCourseData(){
         String courseID, courseName,courseDescription,creditHours ;
@@ -419,20 +484,22 @@ public class CourseControl {
             } else {
                 //error message
                 System.out.println("Course ID had not created yet.");
-                //courseUI.getRemoveCourse();
+               
             }
          
            
         }catch (IOException | ClassNotFoundException ex){
             // print error message
-            System.out.println("Course NOT Found, pls type again.");
-            //courseUI.getRemoveCourse();
+            System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
+            
         }
         
       
      
     }
     
+    
+        
   
     public String getProgrammeID(){
         String programmeID;
