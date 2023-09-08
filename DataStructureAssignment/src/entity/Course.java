@@ -4,11 +4,12 @@
  */
 package entity;
 import dao.*;
+import java.io.Serializable;
 /**
  *
  * @author LOH XIN YI
  */
-public class Course extends DBModel<Course>{
+public class Course extends DBModel<Course> implements Serializable{
     //bacs 1107
     private String courseID;
     private String courseName;

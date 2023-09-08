@@ -100,15 +100,14 @@ public class CourseControl {
                 double ch = Double.parseDouble(creditHours);
                 newCourse.setCreditHours(ch);
                 
-                db.Course.Add(new Course(courseID));
+                db.Course.Add(newCourse);
                 System.out.println("Course ID" + courseID + "had added successfully.");
                 
                 
             }else{
                 //error message
                 System.out.println("Course ID already been created.");
-                //courseUI.getCourseID();
-                doValidateCourseID();
+                //doValidateCourseID();
             }
          
         } catch (IOException | ClassNotFoundException ex) {
@@ -285,7 +284,7 @@ public class CourseControl {
             } else {
                 //error message
                 System.out.println("Course ID had not created yet.");
-                courseUI.getRemoveCourse();
+                //courseUI.getRemoveCourse();
             }
          
            
@@ -408,7 +407,7 @@ public class CourseControl {
                 double ch = Double.parseDouble(creditHours);
                 newCourse.setCreditHours(ch);
 
-                db.Course.Update(new Course(courseID));
+                db.Course.Update(newCourse);
                 System.out.println("Course "+ courseID +" modify successfully.");
                 
                 
@@ -416,7 +415,7 @@ public class CourseControl {
             } else {
                 //error message
                 System.out.println("Course ID had not created yet.");
-                courseUI.getRemoveCourse();
+                //courseUI.getRemoveCourse();
             }
          
            

@@ -88,7 +88,7 @@ public class CourseProgrammeControl {
                 programmeID = cControl.getProgrammeID();
                 newCourseProgramme.setProgrammeID(programmeID);
                 
-                db.CourseProgramme.Update(new CourseProgramme(programmeID));
+                db.CourseProgramme.Update(newCourseProgramme);
                 System.out.println("Programme" + programmeID + " added to course " + courseID + "successfully.");
             } else {
                 System.out.println("Course ID had not created yet.");

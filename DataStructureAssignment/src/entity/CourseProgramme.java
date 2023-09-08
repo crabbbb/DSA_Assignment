@@ -5,6 +5,7 @@
 package entity;
 
 import dao.DBModel;
+import java.io.Serializable;
 
 
 
@@ -12,7 +13,7 @@ import dao.DBModel;
  *
  * @author LOH XIN YI
  */
-public class CourseProgramme extends DBModel<CourseProgramme> {
+public class CourseProgramme extends DBModel<CourseProgramme>  implements Serializable {
 
     private Programme programme;
     private Course course;
