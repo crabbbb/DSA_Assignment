@@ -70,6 +70,17 @@ public class CourseProfile{
         }
     }
     
+    public void listAllProgramme(DoublyLinkedList<Programme> prgList){
+        System.out.println("\nList of Programme: \n");
+        Iterator<Programme> iterator = prgList.iterator();
+        
+        while(iterator.hasNext()){
+            Programme p = iterator.next();
+            
+            System.out.println(p.getProgrammeID() + "\n");
+        }
+    }
+    
     // Menu 
     public int getMenuChoice() {
         // change ---------------------------------------------------------------------------
@@ -116,10 +127,7 @@ public class CourseProfile{
        
         System.out.print("Pls enter the Course that you want to search > \n");
         
-        //return getCourseID();
-        
-            
-        
+      
     }
     
     
@@ -127,16 +135,7 @@ public class CourseProfile{
 
     public void modifyCourse(){
         System.out.print("Enter Course ID to modify : ");
-        /*System.out.println("\n\n\n");
-        System.out.println("Which part you will like to change: ");
-        System.out.println("1. Course Name");
-        System.out.println("2. Course Description");
-        System.out.println("3. Credit Hours of the course");
-        System.out.print("Enter Your Choice ( 1 - 3 ) ( 0 = exit ) > \n");
-        int choice = new Scanner(System.in).nextInt();
-        return choice;*/
         
-        //return new Scanner(System.in).nextInt();
     }
     public int modifyChoice(){
         // Ask the user what to modify
@@ -147,8 +146,8 @@ public class CourseProfile{
         System.out.println("0. Exit");
         System.out.print("Enter Your Choice ( 1 - 3 ) ( 0 = exit ) > \n");
 
-        int choice = new Scanner(System.in).nextInt();
-        return choice;
+        int selection = new Scanner(System.in).nextInt();
+        return selection;
     }
         
     /**
@@ -177,6 +176,7 @@ public class CourseProfile{
      */
     public void reportOfCourse() {
         //print out the data
+        
 
     }
     
@@ -185,18 +185,18 @@ public class CourseProfile{
         System.out.println("\n\n\n");
         System.out.print("Pls enter which course ID you are perform to add a new programme > \n");
         
-        //return getCourseID();
+//        return getCourseID();
 
         
     }
 
     //check-------------------------------------------------------
-    public String courseIDOfRemoveProgramme(){
+    public void courseIDOfRemoveProgramme(){
         System.out.println("\n\n\n");
         System.out.println("Please enter which course ID you are perform to remove an existing programme > \n");
         
-        removeProgramme();
-        return getCourseID();
+//        removeProgramme();
+//        return getCourseID();
 
     }
     public String removeProgramme() {

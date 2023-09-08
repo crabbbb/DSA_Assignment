@@ -7,7 +7,8 @@ package boundary;
 import control.CourseControl;
 
 /**
- 5
+ 55
+ * 
  * 
  * @author LOH XIN YI
  */

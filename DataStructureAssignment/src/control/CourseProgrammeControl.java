@@ -5,6 +5,7 @@
 package control;
 
 import boundary.CourseProfile;
+import adt.*;
 import dao.DBTable;
 import entity.*;
 import java.io.IOException;
@@ -16,12 +17,12 @@ import java.io.IOException;
 public class CourseProgrammeControl {
 
     private DBTable db;
-    private CourseControl cControl;
-    private CourseProfile courseUI;
+    //private CourseControl cControl;
+    //private CourseProfile courseUI;
 
     public CourseProgrammeControl() {
-        //this.cControl = new CourseControl();
-        courseUI = new CourseProfile();
+        //cControl = new CourseControl();
+        //courseUI = new CourseProfile();
         this.db = new DBTable();
     }
 
@@ -37,7 +38,7 @@ public class CourseProgrammeControl {
         //do {
             //programmeID = courseUI.getProgrammeID();
 
-            programmeID = cControl.getProgrammeID();
+
             // do validation
             if (programmeID != null && !programmeID.isEmpty()) {
                 char[] array = programmeID.toCharArray();
@@ -49,13 +50,14 @@ public class CourseProgrammeControl {
                             // programme ID have one is not letter then can stop the loop and return null, because not fulfill requirement
                             System.out.println("Programme ID cannot have special character");
                             return false;
-                        } else if (i == 2 && Character.isLetter(array[i])) {
-                            // i == 2 means already last && array[i] is letter == all requirement match return value
-                            // valid length
-                            //valid = true;
-                            return true;
-                            
                         }
+                    }
+                    
+                    // last check > have exist in file
+                    if(getTargetProgramme(programmeID) != null){
+                        return true;
+                    }else{
+                        System.out.println("Programme ID not exist please reenter again");
                     }
                 } else {
                     System.out.println("Programme ID must in 3 character");
@@ -67,44 +69,59 @@ public class CourseProgrammeControl {
 
         return true;
     }
+    
+    public DoublyLinkedList<Programme> getAllProgramme(){
+        try{
+            return db.Programme.getAll();
+        }catch(IOException | ClassNotFoundException ex){
+            // print error message
+            System.out.println("Unexpected situation occurs, Unable to get data from file \nDetail Message > " + ex.getMessage());
+        }
+        
+        return null;
+    }
+    
+    public Programme getTargetProgramme(String programmeID){
+        try{
+           return db.Programme.getWithId(programmeID);
+        }catch(IOException | ClassNotFoundException ex){
+            // print error message
+            System.out.println("Unexpected situation occurs, Unable to get data from file \nDetail Message > " + ex.getMessage());
+        }
+        
+        return null; // no this data inside
+    }
 
     /**
      * add course if valid db add course return message + id read n add
+     * @return false when update unsuccessful and true when success 
      */
-    public void addProgrammeInCourse() {
-        boolean stopCase = false;
-        do {
-            String courseID, programmeID;
-            courseID = cControl.doValidateCourseID();
-
-            courseUI.getCourseID();
-            try {
-                CourseProgramme cp = db.CourseProgramme.getWithId(courseID);
-
-                if (cp != null) {
-                    CourseProgramme newCourseProgramme = new CourseProgramme();
-                    newCourseProgramme.setCourseID(courseID);
-                    //programmeID = courseUI.getProgrammeID();
-                    programmeID = cControl.getProgrammeID();
-                    newCourseProgramme.setProgrammeID(programmeID);
-
-                    db.CourseProgramme.Update(newCourseProgramme);
-                    System.out.println("Programme" + programmeID + " added to course " + courseID + "successfully.");
-                    stopCase = true;
-                } else {
-                    System.out.println("Course ID had not created yet.");
-                    //courseUI.addCourse();
-                }
-
-            } catch (IOException | ClassNotFoundException ex) {
-                // print error message
-                System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
-
-                stopCase = true;
-            }
-        } while (!stopCase);
+    public boolean addProgrammeInCourse(String courseID, Programme programme) {
+        //boolean stopCase = false;
         
-       
+        try{
+            // courseID have data
+            if (courseID != null && !courseID.isEmpty()) {
+                // check programme
+                if (programme != null && programme.getProgrammeID() != null && !programme.getProgrammeID().isEmpty()) {
+                    // programme valid , then check exist
+                    Programme targetProgramme = getTargetProgramme(programme.getProgrammeID());
+                    if (targetProgramme != null) {
+                        // have data inside programme file, then save into courseProgramme file
+                        if(db.CourseProgramme.Add(new CourseProgramme(programme, courseID))){
+                            // success , give a message on courseControl
+                            return true;
+                        }
+                    }
+                }
+            }
+        }catch(IOException | ClassNotFoundException ex){
+            // print error message
+            System.out.println("Unexpected situation occurs, Unable to get or save data to file \nDetail Message > " + ex.getMessage());
+        }
+        
+        return false;
+
     }
 
     /**
@@ -112,47 +129,36 @@ public class CourseProgrammeControl {
      *
      *
      */
-    public void removeProgrammeInCourse() {
-
-        String courseID, programmeID;
-        courseID = cControl.doValidateCourseID();
-        
-        //programmeID = doValidateProgrammeID();
-        
-
-        try {
-            CourseProgramme cp = db.CourseProgramme.getWithId(courseID);
-            
-            if (cp != null) {
-                CourseProgramme newCourseProgramme = new CourseProgramme();
-                newCourseProgramme.setCourseID(courseID);
-                //programmeID = courseUI.getProgrammeID();
-                programmeID = cControl.getProgrammeID();
-                newCourseProgramme.setProgrammeID(programmeID);
-                
-                db.CourseProgramme.Delete(new CourseProgramme(programmeID));
-                System.out.println("Course " + courseID + "remove successfully.");
-                
-            } else {
-                System.out.println("Course ID had not created yet.");
-                //courseUI.courseIDOfRemoveProgramme();
+    public boolean removeProgrammeInCourse(String courseID,Programme programme) {
+        //boolean stopCase = false;
+        try{
+            // courseID have data
+            if (courseID != null && !courseID.isEmpty()) {
+                // check programme
+                if (programme != null && programme.getProgrammeID() != null && !programme.getProgrammeID().isEmpty()) {
+                    // programme valid , then check exist
+                    Programme targetProgramme = getTargetProgramme(programme.getProgrammeID());
+                    if (targetProgramme != null) {
+                        // have data inside programme file, then delete from courseProgramme file
+                        if(db.CourseProgramme.Delete(new CourseProgramme(programme, courseID))){
+                            // success , give a message on courseControl
+                            return true;
+                        }
+                    }
+                }
             }
-            
-            
-        } catch (IOException | ClassNotFoundException ex) {
+        }catch(IOException | ClassNotFoundException ex){
             // print error message
-            System.out.println("Course NOT Found, pls type again.");
-            
-            
+            System.out.println("Unexpected situation occurs, Unable to get or save data to file \nDetail Message > " + ex.getMessage());
         }
+        
+        return false;
+        
+        
+        
        
     }
 
-    /**
-     * check id related
-     * cannot be empty or null value
-     * return the search result result
-     * 
-     */ 
+    
     
 }

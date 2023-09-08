@@ -54,14 +54,13 @@ public class CourseControl {
                     courseUI.listAllCourse(getAllData());
                     break;
                 case 6://add programme
-                    courseUI.addProgramme();
-                    //cpControl.addProgrammeInCourse();
+                    addProgramme();
                     break;
                 case 7://remove programme
-                    courseUI.courseIDOfRemoveProgramme();
+                    removeProgramme();
                     break;
                 case 8://report
-                    courseUI.reportOfCourse();
+//                    courseUI.reportOfCourse();
                     break;
                 case 9:
                     System.out.println("Exiting the Course Management System.");
@@ -369,11 +368,11 @@ public class CourseControl {
     
     public int doModifyChoice(){
    
-        int choice;
+        int selection;
         do {
 
-            choice = courseUI.modifyChoice();
-            switch (choice) {
+            selection = courseUI.modifyChoice();
+            switch (selection) {
                 case 1:
                     doValidateCourseName();
 
@@ -396,7 +395,7 @@ public class CourseControl {
             }
            
             
-        }while(choice != 3);
+        }while(selection != 3);
         return 0;
 
         
@@ -455,13 +454,90 @@ public class CourseControl {
   
     public String getProgrammeID(){
         String programmeID;
+        courseUI.courseIDOfRemoveProgramme();
         do{
             programmeID = courseUI.getProgrammeID();
         }while(!cpControl.doValidateProgrammeID(programmeID));
         
         return programmeID;
     }
+
     
+    
+    public void addProgramme(){
+        // get input
+        String courseID = null;
+        boolean stopcase = true;
+        do{
+            stopcase = true; // reset
+            courseID = doValidateCourseID();
+            if(getTargetCourse(courseID) == null){
+                // data no exist in file reenter again 
+                System.out.println("Course not found inside file, please reenter again");
+                stopcase = false;
+            }
+        }while(!stopcase);
+        
+        DoublyLinkedList<Programme> plist = cpControl.getAllProgramme();
+        
+        courseUI.listAllProgramme(plist);
+        
+        // exist in file, format correct
+        String programmeID = getProgrammeID();
+        
+        if(cpControl.addProgrammeInCourse(courseID, new Programme(programmeID))){
+            // added success 
+            System.out.println("Programme" + programmeID + " added to course " + courseID + "successfully.");
+        }else{
+            // cannot added 
+            System.out.println("It is failed to add the programme to course.");
+        }
+        
+        
+    }
+    
+    public void removeProgramme(){
+        // get input
+        String courseID = null;
+        boolean stopcase = true;
+        do{
+            stopcase = true; // reset
+            courseID = doValidateCourseID();
+            if(getTargetCourse(courseID) == null){
+                // data no exist in file reenter again 
+                System.out.println("Course not found inside file, please reenter again");
+                stopcase = false;
+            }
+        }while(!stopcase);
+        
+        DoublyLinkedList<Programme> plist = cpControl.getAllProgramme();
+        
+        courseUI.listAllProgramme(plist);
+        
+        // exist in file, format correct
+        String programmeID = getProgrammeID();
+        
+        if(cpControl.removeProgrammeInCourse(courseID, new Programme(programmeID))){
+            // added success 
+            System.out.println("Programme" + programmeID + " remove from course " + courseID + "successfully.");
+        }else{
+            // cannot added 
+            System.out.println("It is failed to remove the programme from course.");
+        }
+        
+        
+    }
+    
+    public Course getTargetCourse(String courseID){
+        try{
+            return db.Course.getWithId(courseID);
+        }catch(IOException | ClassNotFoundException ex){
+            // print error message
+            System.out.println("Unexpected situation occurs, Unable to get data from file \nDetail Message > " + ex.getMessage());
+        }
+        
+        return null;
+    }
     
 
 }
