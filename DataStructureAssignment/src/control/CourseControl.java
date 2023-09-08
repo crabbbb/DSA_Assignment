@@ -55,6 +55,7 @@ public class CourseControl {
                     break;
                 case 6://add programme
                     courseUI.addProgramme();
+                    cpControl.addProgrammeInCourse();
                     break;
                 case 7://remove programme
                     courseUI.courseIDOfRemoveProgramme();

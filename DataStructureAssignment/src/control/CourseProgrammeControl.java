@@ -72,34 +72,38 @@ public class CourseProgrammeControl {
      * add course if valid db add course return message + id read n add
      */
     public void addProgrammeInCourse() {
-        String courseID, programmeID;
-        courseID = cControl.doValidateCourseID();
-        
+        boolean stopCase = false;
+        do {
+            String courseID, programmeID;
+            courseID = cControl.doValidateCourseID();
 
-        courseUI.getCourseID();
-        try {
-            CourseProgramme cp = db.CourseProgramme.getWithId(courseID);
-            
-            
-            if (cp != null) {
-                CourseProgramme newCourseProgramme = new CourseProgramme();
-                newCourseProgramme.setCourseID(courseID);
-                //programmeID = courseUI.getProgrammeID();
-                programmeID = cControl.getProgrammeID();
-                newCourseProgramme.setProgrammeID(programmeID);
-                
-                db.CourseProgramme.Update(newCourseProgramme);
-                System.out.println("Programme" + programmeID + " added to course " + courseID + "successfully.");
-            } else {
-                System.out.println("Course ID had not created yet.");
-                //courseUI.addCourse();
+            courseUI.getCourseID();
+            try {
+                CourseProgramme cp = db.CourseProgramme.getWithId(courseID);
+
+                if (cp != null) {
+                    CourseProgramme newCourseProgramme = new CourseProgramme();
+                    newCourseProgramme.setCourseID(courseID);
+                    //programmeID = courseUI.getProgrammeID();
+                    programmeID = cControl.getProgrammeID();
+                    newCourseProgramme.setProgrammeID(programmeID);
+
+                    db.CourseProgramme.Update(newCourseProgramme);
+                    System.out.println("Programme" + programmeID + " added to course " + courseID + "successfully.");
+                    stopCase = true;
+                } else {
+                    System.out.println("Course ID had not created yet.");
+                    //courseUI.addCourse();
+                }
+
+            } catch (IOException | ClassNotFoundException ex) {
+                // print error message
+                System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
+
+                stopCase = true;
             }
-            
-        } catch (IOException | ClassNotFoundException ex) {
-            // print error message
-            System.out.println("Course NOT Found, pls type again.");
-            
-        }
+        } while (!stopCase);
+        
        
     }
 
@@ -138,6 +142,7 @@ public class CourseProgrammeControl {
         } catch (IOException | ClassNotFoundException ex) {
             // print error message
             System.out.println("Course NOT Found, pls type again.");
+            
             
         }
        
