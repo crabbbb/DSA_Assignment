@@ -48,7 +48,7 @@ public class CourseControl {
                     searchByCourseID();
                     break;
                 case 4://amend
-                    courseUI.modifyCourse();
+                    modifyCourse();
                     break;
                 case 5://list all
                     courseUI.listAllCourse(getAllData());
@@ -367,47 +367,48 @@ public class CourseControl {
         return null;
     }*/
     
-    public int doValidateModifyChoice(){
+    public int doModifyChoice(){
    
-        /*int choice;
-        do{
-            // get choice
-            choice = courseUI.modifyCourse();
-            
+        int choice;
+        do {
+
+            choice = courseUI.modifyChoice();
             switch (choice) {
+                case 1:
+                    doValidateCourseName();
+
+                    break;
+                case 2:
+                    CourseDescriptionValidator();
+
+                    break;
+                case 3:
+                    CourseCHValidator();
+
+                    break;
                 case 0:
                     System.out.println("Exiting the Modify Page.");
                     courseUI.getMenuChoice();
                     break;
-                case 1://name
-                    doValidateCourseName();
-                    break;
-                case 2://desc
-                    CourseDescriptionValidator();
-                    break;
-
-                case 3://credit hours
-                    CourseCHValidator();
-                    break;
-                
-               
+                    
                 default:
                     courseUI.displayInvalidMenuChoice();
             }
-
+           
+            
         }while(choice != 3);
-        return 0;*/
+        return 0;
+
         
     }
     
     public void modifyCourse() {
+        
         courseUI.modifyCourse();
         String courseID = doValidateCourseID();
 
-        if (courseID.equals("0")) {
-            System.out.println("Exiting the Modify Page.....");
-            return;
-        }
+        String courseName, courseDescription, creditHours;
+        
 
         try {
             Course c = db.Course.getWithId(courseID);
@@ -418,85 +419,36 @@ public class CourseControl {
                 System.out.println("Course Description: " + c.getCourseDescription());
                 System.out.println("Credit Hours: " + c.getCreditHours());
 
-                
-                int choice;
-                do{
-                    
-                    choice = courseUI.modifyChoice();
-                    switch (choice) {
-                        case 1:
-                            System.out.print("Enter new Course Name: ");
-                            String newCourseName = scanner.nextLine();
-                            c.setCourseName(newCourseName);
-                            break;
-                        case 2:
-                            System.out.print("Enter new Course Description: ");
-                            String newCourseDescription = scanner.nextLine();
-                            c.setCourseDescription(newCourseDescription);
-                            break;
-                        case 3:
-                            System.out.print("Enter new Credit Hours: ");
-                            double newCreditHours = Double.parseDouble(scanner.nextLine());
-                            c.setCreditHours(newCreditHours);
-                            break;
-                        case 0:
-                            System.out.println("Exiting the Modify Page.");
-                            return;
-                        default:
-                            System.out.println("Invalid choice.");
-                }while(choice ! = 3);
+                doModifyChoice();
 
-                
-                
+                c.setCourseID(courseID);
 
-                db.updateCourse(c);
+                //update these methods to return the modified values.
+                courseName = doValidateCourseName();
+                c.setCourseName(courseName);
+
+                courseDescription = CourseDescriptionValidator();
+                c.setCourseDescription(courseDescription);
+
+                creditHours = CourseDescriptionValidator();
+                double ch = Double.parseDouble(creditHours);
+                c.setCreditHours(ch);
+
+                db.Course.Update(c);
                 System.out.println("Course " + courseID + " modified successfully.");
+
             } else {
                 System.out.println("Course ID does not exist.");
             }
         } catch (IOException | ClassNotFoundException | NumberFormatException ex) {
-            System.out.println("An error occurred while accessing the database.");
+            System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
         }
     }
-    public void doModifyCourseData(){
-        String courseID, courseName,courseDescription,creditHours ;
-        courseID = doValidateCourseID();
-        
-        try {
-            Course c = db.Course.getWithId(courseID);
-            if (c != null) {
-                // no exist
-                Course newCourse = new Course();
-                newCourse.setCourseID(courseID);
-                courseName = doValidateCourseName();
-                newCourse.setCourseName(courseName);
-                courseDescription = CourseDescriptionValidator();
-                newCourse.setCourseDescription(courseDescription);
-                creditHours = CourseCHValidator();
-                double ch = Double.parseDouble(creditHours);
-                newCourse.setCreditHours(ch);
-
-                db.Course.Update(newCourse);
-                System.out.println("Course "+ courseID +" modify successfully.");
-                
-                
-
-            } else {
-                //error message
-                System.out.println("Course ID had not created yet.");
-               
-            }
-         
-           
-        }catch (IOException | ClassNotFoundException ex){
-            // print error message
-            System.out.println("Unexcepted situation occurs, data retreive or store unssuccessful\nMore Details > " + ex.getMessage());
-            
-        }
+    
         
       
      
-    }
+
     
     
         

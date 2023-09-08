@@ -154,21 +154,5 @@ public class CourseProgrammeControl {
      * return the search result result
      * 
      */ 
-    /*public void searchByProgrammeID(){
-        String programmeID = doValidateProgrammeID();
-        
-
-        try {
-            db.Course.getWithId(programmeID);
-            //next interface for modify and exit data
-            
-            
-        } catch (IOException | ClassNotFoundException ex) {
-            // print error message
-            System.out.println("Course NOT Found, pls type again.");
-            //back the page to key in
-            courseUI.getSearchCourse();
-            
-        }
-    }*/
+    
 }

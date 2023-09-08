@@ -107,14 +107,14 @@ public class CourseProfile{
         
         System.out.println("\n\n\n");
         
-        System.out.print("Pls enter the Course that you want to remove ( 0 = exit ) > \n");
+        System.out.print("Pls enter the Course that you want to remove > \n");
     }
 
     // change --------------------------------------------------------------------------
     public void getSearchCourse(){
         
        
-        System.out.print("Pls enter the Course that you want to search ( 0 = exit ) > \n");
+        System.out.print("Pls enter the Course that you want to search > \n");
         
         //return getCourseID();
         
@@ -122,17 +122,11 @@ public class CourseProfile{
         
     }
     
-    // change --------------------------------------------------------------------------
     
-    /*public String courseIDOfModifyCourse(){
-        System.out.println("\n\n\n");
-        System.out.println("Please enter which course ID you are perform to modify ( 0 = exit ) > \n");
-        modifyCourse();
-        return getCourseID();
 
-    }*/
+
     public void modifyCourse(){
-        System.out.print("Enter Course ID to modify (0 to exit): ");
+        System.out.print("Enter Course ID to modify : ");
         /*System.out.println("\n\n\n");
         System.out.println("Which part you will like to change: ");
         System.out.println("1. Course Name");
@@ -151,6 +145,7 @@ public class CourseProfile{
         System.out.println("2. Course Description");
         System.out.println("3. Credit Hours");
         System.out.println("0. Exit");
+        System.out.print("Enter Your Choice ( 1 - 3 ) ( 0 = exit ) > \n");
 
         int choice = new Scanner(System.in).nextInt();
         return choice;
@@ -188,7 +183,7 @@ public class CourseProfile{
     public void addProgramme() {
         
         System.out.println("\n\n\n");
-        System.out.print("Pls enter which course ID you are perform to add a new programme ( 0 = exit ) > \n");
+        System.out.print("Pls enter which course ID you are perform to add a new programme > \n");
         
         //return getCourseID();
 
@@ -198,7 +193,7 @@ public class CourseProfile{
     //check-------------------------------------------------------
     public String courseIDOfRemoveProgramme(){
         System.out.println("\n\n\n");
-        System.out.println("Please enter which course ID you are perform to remove an existing programme ( 0 = exit ) > \n");
+        System.out.println("Please enter which course ID you are perform to remove an existing programme > \n");
         
         removeProgramme();
         return getCourseID();
@@ -206,7 +201,7 @@ public class CourseProfile{
     }
     public String removeProgramme() {
         System.out.println("\n\n\n");
-        System.out.println("Please enter which programme ID you are perform to remove in the course ( 0 = exit ) > \n");
+        System.out.println("Please enter which programme ID you are perform to remove in the course > \n");
         return getProgrammeID();
   
         
