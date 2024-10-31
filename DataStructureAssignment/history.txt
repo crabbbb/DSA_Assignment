@@ -9,3 +9,17 @@
 05/09/2023,21:17:20,RSWG6 has been displayed
 05/09/2023,21:18:49,23WMR00002 has been deleted from RSWG6
 05/09/2023,21:18:56,RSWG7 has been displayed
+12/09/2023,08:39:57,23PMD09843 has been added into RSWG7
+12/09/2023,08:40:03,RSWG7 has been displayed
+12/09/2023,08:40:13,RSWG7 has been displayed
+12/09/2023,08:40:26,23WMR00001 has been deleted from RSWG7
+12/09/2023,08:40:29,RSWG7 has been displayed
+12/09/2023,08:40:44,23PMD09765 has been searched
+12/09/2023,08:40:53,23WMR00002 has been searched
+12/09/2023,08:40:57,RSWG7 has been displayed
+12/09/2023,08:41:16,23WMR00003 has been searched
+12/09/2023,08:41:21,P has been searched
+12/09/2023,08:41:40,23WMR00003 has been changed from RSWG7 to RSWG6
+12/09/2023,08:41:44,RSWG6 has been displayed
+12/09/2023,08:41:54,Filter Group using Programme
+12/09/2023,08:42:04,Filter Group using Group Size
